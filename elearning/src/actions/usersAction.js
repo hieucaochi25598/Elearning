@@ -221,3 +221,4 @@ export const getCourseListWaitEnrolledAction = (courseList) => {
     data: courseList
   }
 }
+

@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getCourseListWaitEnrolled } from '../../actions/usersAction'
+import { courseChosenAction, confirmUserJoinCourse, cancleUserJoinCourse } from '../../actions/courseAction'
 
 const ListCourseWaitEnrolled = () => {
     const dispatch = useDispatch()
@@ -29,8 +30,8 @@ const ListCourseWaitEnrolled = () => {
                     
                     <td>{item.tenKhoaHoc}</td>
                     <td>
-                        <button className="btn btn-success">Ghi danh</button>
-                        <button className="btn btn-danger">Huy ghi danh</button>
+                        <button className="btn btn-success" onClick={() => {dispatch(courseChosenAction(item)); dispatch(confirmUserJoinCourse())}}>Ghi danh</button>
+                        <button className="btn btn-danger" onClick={() => {dispatch(courseChosenAction(item)); dispatch(cancleUserJoinCourse())}}>Huy ghi danh</button>
                     </td>
                     </tr>
                     ))}

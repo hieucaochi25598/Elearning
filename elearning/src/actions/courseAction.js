@@ -1,5 +1,6 @@
 import axios from '../util/axios'
 import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE } from '../contants/courseConstant'
+import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
 export const getCourseList = () =>{
     return dispatch => {
         axios.request({
@@ -184,6 +185,7 @@ export const confirmUserJoinCourse = () => {
         }).then(result => {
             console.log(result)
             dispatch(getUserListWaitCourse())
+            dispatch(getCourseListWaitEnrolled())
         }).catch(error => {
             console.log(error)
         })
@@ -201,6 +203,9 @@ export const cancleUserJoinCourse = () => {
         }).then(result => {
             dispatch(getUserListWaitCourse())
             dispatch(getUserListOfCourse())
+            /////////////////////////////
+            dispatch(getCourseListWaitEnrolled())
+            dispatch(getCourseListEnrolled())
         }).catch(error => {
             console.log(error)
         })
