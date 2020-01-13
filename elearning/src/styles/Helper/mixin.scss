@@ -1,0 +1,35 @@
+@mixin styleText($fs, $fw, $color) 
+{
+    font-size: $fs;
+    font-weight: $fw;
+    color: $color;
+}
+@mixin styleButton($bg-color, $border, $pd-top-bottom, $pd-right-left, $color)
+{
+    color: $color;
+    background-color: $bg-color;
+    border: 1px solid $border;
+    padding: $pd-top-bottom $pd-right-left;
+    border-radius: 5px;
+    outline: none;
+    
+}
+@mixin styleButtonHover($bg-color, $color, $border)
+{
+    background-color:$bg-color;
+    color: $color;
+    border: 1px solid $border;
+}
+//Responsive
+@mixin respond-to($breakpoint) {
+    @if map-has-key($map: $breakpoints, $key: $breakpoint)
+    {
+        $value: map-get($map: $breakpoints, $key: $breakpoint);
+        @media screen and (max-width: $value){
+            @content;
+        }
+    }
+    @else{
+        @warn "breakpoint not exist in breakpoints";
+    }
+}

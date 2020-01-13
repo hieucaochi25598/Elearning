@@ -1,0 +1,4 @@
+export const GET_USER_INFO = 'GET_USER_INFO'
+export const GET_ACCOUNT_INFO = ' GET_ACCOUNT_INFO' 
+export const TOGGLE_MODAL = 'TOGGLE_MODAL'
+export const EDIT_ACCOUNT_INFO = 'EDIT_ACCOUNT_INFO'

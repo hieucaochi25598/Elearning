@@ -1,0 +1,62 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+@import '../Component/loading.scss';
+.myLoginForm{
+    height: 100vh;
+    background-image: url('../../img/e_contents.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    .myMainLoginForm{
+        background: rgba(255,255,255, 0.95);
+        position: absolute;
+        left: 50%;
+        padding: 30px;
+        top: 20%;
+        transform: translateX(-50%);
+        width: 350px;
+        border-radius: 10px;
+        text-align: center;
+        h2{
+            font-size: 30px;
+            margin-top: 20px;
+                margin-bottom: 20px;
+                color: #ff4500;
+                font-weight: 900;
+        }
+        .iconLogin{
+            font-size: 50px;
+            color: white;
+            border: 1px solid #ff4500;
+            border-radius: 50%;
+            padding: 20px;
+            background: #ff4500;
+            position: absolute;
+            top: -50px;
+            left: 135px;
+        }
+        .myTextField {
+            width: 100%;
+            i{
+                color: #ff8c00;
+                font-size: 20px;
+            }
+        }
+        .myBtnLogin{
+            width: 50%;
+                border-radius: 50px;
+                background: #ff8c00;
+                border: none;
+                transition: all 0.5s;
+                outline: none;
+                box-shadow: unset;
+                padding: 10px 0;
+                &:hover{
+                    background: #ff4500;
+                    
+                }
+        }
+    }
+    
+}

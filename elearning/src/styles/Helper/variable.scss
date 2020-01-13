@@ -1,0 +1,60 @@
+$color-black-0: #000000; // default
+$color-white-0: #fff; //default
+$color-black-1: #333;
+$color-black-2: #1F1F1F;
+$color-blue: #009dd9;
+$color-grey-0: #dadada;
+$color-red-0: #ec5252;
+$color-red-1: #992337;
+$color-grey-1: #d5dae2;
+$color-black-dark: rgba(0,0,0,0.35);
+// variable font-size
+$fs-0: 15px; //default
+$fs-1: 13px;
+$fs-7: 10px;
+$fs-10: 8px;
+$fs-6: 14px;
+$fs-9: 18px;
+$fs-2: 20px;
+$fs-3: 24px;
+
+//Còn 1 font-size: 36px;
+$fs-4: 40px;
+$fs-5: 36px;
+$fs-8: 28px;
+//variable margin
+$mg-0: 2px;
+$mg-1: 10px;
+$mg-2: 25px;
+
+//variable border-radius
+$border-radius: 2px;
+
+//variable padding
+$pd-0: 5px; //default
+$pd-1: 10px;
+$pd-2: 20px;
+
+//fontfamilychangecontent
+$ff-0: "Font Awesome 5 Free";
+
+//variable line-height
+$line-height-0: 1.43; //default
+
+
+//variable font-weight
+$fw-normal: normal;
+$fw-bold-0: 600;
+$fw-bold-1: 700;
+$fw-bold: bold;
+
+
+//break points
+$breakpoints:(
+    'my-breakpoint':1400px,
+    'my-breakpoint1':1280px,
+    'extra-large': 1200px,
+    'large' : 992px,
+    'medium' : 768px,
+    'small' : 576px,
+)

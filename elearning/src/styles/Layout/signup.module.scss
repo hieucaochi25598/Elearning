@@ -1,0 +1,53 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+@import '../Component/loading.scss';
+
+.coverForm{
+    background-image: url('../../img/signup.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    .mySignUpForm{
+        background: rgba(255,255,255, 0.9);
+        padding: 0 30px;
+        position: absolute;
+        z-index: 10;
+        top: 20%;
+        border-radius: 10px;
+        left: 50%;
+        width: 600px;
+        transform: translateX(-50%);
+        .mySignUpMainForm{
+            text-align: center;
+            padding: 20px 0;     
+            }
+            h2{
+                font-size: 30px;
+                margin-bottom: 20px;
+                color: #ff4500;
+                font-weight: 900;
+            }
+            .myTextField{
+                width: 100%;
+                i{
+                    color: #ff8c00;
+                    font-size: 20px;
+                }
+            }
+            .myBtn {
+                width: 30%;
+                border-radius: 50px;
+                background: #ff8c00;
+                border: none;
+                transition: all 0.5s;
+                outline: none;
+                box-shadow: unset;
+                padding: 10px 0;
+                &:hover{
+                    background: #ff4500;
+                    
+                }
+            }
+        }
+    }

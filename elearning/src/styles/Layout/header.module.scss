@@ -1,0 +1,35 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+.myNavbar{
+    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    padding: 0;
+    .myTextLogo{
+        color: $color-red-0;
+        font-size: $fs-3;
+        font-weight: $fw-bold;
+    }
+    i{
+        font-size:25px;
+        color: $color-blue;
+        
+    }
+    .myNavItem{
+        margin: 0 $mg-1;
+        .myNavLink{
+            text-decoration: none;
+            color: $color-blue;
+        }
+        .myBtnLogin{
+            @include styleButton($color-white-0, $color-black-0, $pd-1, $pd-2, $color-black-1);
+            &:hover{
+                @include styleButtonHover($color-grey-1, $color-black-0, $color-black-0)
+            }
+        }
+        .myBtnSignUp{
+            @include styleButton($color-red-0, $color-red-0, $pd-1, $pd-2, $color-white-0);
+            &:hover{
+                @include styleButtonHover($color-red-1, $color-white-0, $color-red-1)
+            }
+        }
+    }
+}
