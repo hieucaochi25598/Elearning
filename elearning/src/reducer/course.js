@@ -1,4 +1,4 @@
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE } from "../contants/courseConstant"
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE } from "../contants/courseConstant"
 
 const initialState = {
     listCourses: [],
@@ -9,7 +9,8 @@ const initialState = {
     courseChosen: {},
     userOfCourse: [],
     userNotChoseCourse: [],
-    userWaitCourse: []
+    userWaitCourse: [],
+    price: 13
 }
 
 const courseReducer = (state = initialState, action) => {
@@ -50,6 +51,13 @@ const courseReducer = (state = initialState, action) => {
         {
             return {...state, userWaitCourse: action.data}
         }
+        case CHANGE_PRICE:
+            {
+                
+                let price = {...state.price}
+                price = Math.floor(Math.random() * 101)
+                return {...state, price: price}
+            }
         default:
             return state
     }

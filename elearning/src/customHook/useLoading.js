@@ -5,7 +5,7 @@ const useLoading = () => {
     const [loading, setLoading] = useState(true)
     useEffect(()=>{
         setTimeout(()=> {
-            setLoading(!loading)
+            setLoading(false)
         }, 1000)
     }, [])
     return {loading}

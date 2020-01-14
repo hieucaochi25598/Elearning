@@ -13,7 +13,7 @@ const UserAuth = ({ component: Component, ...props }) => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Please login',
+                title: 'Vui lòng đăng nhập',
                 showConfirmButton: true,
             })
             return <Redirect to="/login"/>

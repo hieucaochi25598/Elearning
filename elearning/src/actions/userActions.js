@@ -14,7 +14,7 @@ export const signUpAction = (values, handleSuccess) => {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Sign up Successfully',
+                title: 'Đăng ký thành công',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -23,7 +23,7 @@ export const signUpAction = (values, handleSuccess) => {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'Email or Username exist',
+                title: 'Email hoặc tài khoản đã tồn tại',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -45,7 +45,7 @@ export const logInAction = (values, handleSuccess) => {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Login Successfully',
+                title: 'Đăng nhập thành công',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -55,7 +55,7 @@ export const logInAction = (values, handleSuccess) => {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'Invalid username or password',
+                title: 'Tài khoản hoặc mật khẩu không đúng !',
                 showConfirmButton: false,
                 timer: 2500
             })

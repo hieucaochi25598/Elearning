@@ -18,6 +18,16 @@
         .myNavLink{
             text-decoration: none;
             color: $color-blue;
+            border: 1px solid white;
+            .myLink{
+                text-decoration: none;
+                color: #505763;
+            }
+            &:hover{
+                background: #f3f3f3;
+                border-radius: 5px;
+                border: 1px solid #E8E8E8;
+            }
         }
         .myBtnLogin{
             @include styleButton($color-white-0, $color-black-0, $pd-1, $pd-2, $color-black-1);
@@ -31,5 +41,8 @@
                 @include styleButtonHover($color-red-1, $color-white-0, $color-red-1)
             }
         }
+    }
+    .myDropLink{
+        text-decoration: none;
     }
 }

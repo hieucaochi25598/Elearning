@@ -1,6 +1,7 @@
 import axios from '../util/axios'
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE } from '../contants/courseConstant'
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
+
 export const getCourseList = () =>{
     return dispatch => {
         axios.request({
@@ -63,6 +64,7 @@ export const getCourseFromTitle = (maDanhMuc) => {
             url: `QuanLyKhoaHoc/LayKhoaHocTheoDanhMuc?maDanhMuc=${maDanhMuc}&MaNhom=GP01`
         }).then(result => {
             dispatch(getCourseFromTitleAction(result.data))
+            
         }).catch(error => {
             console.log(error)
         })
@@ -99,7 +101,7 @@ export const deleteCourse = (maKhoaHoc) =>{
             method: 'DELETE',
             url: `QuanLyKhoaHoc/XoaKhoaHoc?maKhoaHoc=${maKhoaHoc}`
         }).then(result => {
-            console.log(result.data)
+            dispatch(getCourseList())
         }).catch(error => {
             console.log(error)
         })
@@ -209,5 +211,11 @@ export const cancleUserJoinCourse = () => {
         }).catch(error => {
             console.log(error)
         })
+    }
+}
+
+export const changePrice = () => {
+    return {
+        type: CHANGE_PRICE
     }
 }
