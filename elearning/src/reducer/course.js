@@ -17,7 +17,13 @@ const courseReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_COURSE_LIST:
             {
-                return { ...state, listCourses: action.data }
+                const listCourses = action.data.map(item => {
+                    return {
+                        ...item,
+                        giaTien: Math.floor(Math.random() * 101)
+                    }
+                })
+                return { ...state, listCourses}
             }
         case GET_COURSE_DETAIL:
             {
@@ -29,11 +35,24 @@ const courseReducer = (state = initialState, action) => {
             }
         case GET_COURSE_FROM_TITLE:
             {
-                return { ...state, listCourses: action.data }
+                const listCourses = action.data.map(item => {
+                    return {
+                        ...item,
+                        giaTien: Math.floor(Math.random() * 101)
+                    }
+                })
+                return { ...state, listCourses}
             }
         case FIND_COURSE:
+
             {
-                return { ...state, listCourses: action.data }
+                const listCourses = action.data.map(item => {
+                    return {
+                        ...item,
+                        giaTien: Math.floor(Math.random() * 101)
+                    }
+                })
+                return { ...state, listCourses }
             }
         case COURSE_CHOSEN:
             {

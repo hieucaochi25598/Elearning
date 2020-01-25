@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import {
   getCourseList,
   deleteCourse,
-  courseChosenAction
+  courseChosenAction,
+  getUserListOfCourse
 } from "../../actions/courseAction";
 
 const CourseManagement = props => {
@@ -45,7 +46,7 @@ const CourseManagement = props => {
                     props.history.push(
                       `/admin/list-user-course/${item.maKhoaHoc}`
                     );
-                    dispatch(courseChosenAction(item));
+                    dispatch(getUserListOfCourse(item.maKhoaHoc));
                   }}
                 >
                   Danh sach hoc vien

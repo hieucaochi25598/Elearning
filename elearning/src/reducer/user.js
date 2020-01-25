@@ -1,10 +1,12 @@
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO } from "../contants/userConstants"
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING } from "../contants/userConstants"
 
 //Luu thong tin user khi dang nhap
 const initialState = {
     userInfo: {},
     accountInfo: {},
-    isOpen: false 
+    isOpen: false,
+    myCoursesList: [],
+    myCousesListWaiting: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -23,12 +25,20 @@ const userReducer = (state = initialState, action) => {
         }
         case EDIT_ACCOUNT_INFO:
             {   
-                const accountInfo = state.accountInfo
+                const accountInfo = {...state.accountInfo}
                 accountInfo.matKhau = action.data.matKhau
                 accountInfo.hoTen = action.data.hoTen
                 accountInfo.soDT = action.data.soDt
                 accountInfo.maLoaiNguoiDung = action.data.maLoaiNguoiDung
-                return {...state, accountInfo: accountInfo}
+                return {...state, accountInfo}
+            }
+        case GET_MY_COURSES_LIST:
+            {
+                return {...state, myCoursesList: action.data}
+            }
+        case GET_MY_COURSES_LIST_WAITING:
+            {
+                return {...state, myCousesListWaiting: action.data}
             }
         default:
             return state

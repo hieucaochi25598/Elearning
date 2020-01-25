@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, InputGroup } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { onToggleModal, editAccountInfo } from '../../actions/userActions';
 import { Formik, Form } from 'formik';

@@ -28,6 +28,8 @@ import ListUserWaitCourse from './components/pages/ListUserWaitCourse';
 import ListCourseNotEnroll from './components/pages/ListCourseNotEnroll';
 import ListCourseEnrolled from './components/pages/ListCourseEnrolled';
 import ListCourseWaitEnrolled from './components/pages/ListCourseWaitEnrolled';
+import MyCourse from './components/pages/MyCourse';
+import MyCourseWaiting from './components/pages/MyCourseWaiting';
 
 
 function App() {
@@ -69,14 +71,15 @@ function App() {
             <UserAuth path="/course-detail/:maKhoaHoc" component={CourseDetail} />
             <Route path="/home" component={Home} />
             <Route path="/course-list" component={CourseList} />
-            <UserDetailLayout path="/account-info/:taiKhoan" component={UserDetail}>
+            <UserDetailLayout path="/account-info/:taiKhoan">
               <Switch>
                 <Route path="/account-info/:taiKhoan/signup-courses" component={SignUpCourses} />
+                <Route path="/account-info/:taiKhoan/my-courses" component={MyCourse}/>
+                <Route path="/account-info/:taiKhoan/my-courses-waiting" component={MyCourseWaiting}/>
               </Switch>
             </UserDetailLayout>
           </Switch>
         </UserLayout>
-
       </Switch>
     </div>
   );

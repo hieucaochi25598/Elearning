@@ -113,13 +113,13 @@ export const courseChosenAction = (course) => {
         data: course
     }
 }
-export const getUserListOfCourse = () => {
+export const getUserListOfCourse = (maKhoaHoc) => {
     return (dispatch,getState) => {
-        const {courseChosen} = getState().courseReducer
+        // const {courseChosen} = getState().courseReducer
         axios.request({
             method:'POST',
             url: 'QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc',
-            data: {maKhoaHoc: courseChosen.maKhoaHoc} 
+            data: {maKhoaHoc}
         }).then(result => {
             dispatch(getUserListOfCourseAction(result.data))
         }).catch(error => {

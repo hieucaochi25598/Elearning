@@ -8,9 +8,9 @@ const ListUserCourse = () => {
   const dispatch = useDispatch();
   const { userOfCourse } = useSelector(state => state.courseReducer);
   const { courseChosen } = useSelector(state => state.courseReducer);
-  useEffect(() => {
-    dispatch(getUserListOfCourse());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getUserListOfCourse());
+  // }, []);
   console.log(userOfCourse);
   return (
     <div>

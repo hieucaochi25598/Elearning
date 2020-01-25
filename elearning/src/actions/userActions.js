@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 
 //API Dang KY
@@ -183,5 +183,47 @@ export const deleteSignUpCourse = (handleSuccess) => {
                 showConfirmButton: true,
             })
         })
+    }
+}
+
+//lay danh sach khoa hoc ma nguoi dung da duoc xet duyet
+export const getMyCoursesList = () =>{
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        axios.request({
+            method: 'POST', 
+            url: 'QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet',
+            data: {taiKhoan: userInfo.taiKhoan}
+        }).then(result => {
+            dispatch(getMyCoursesListAction(result.data))
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+}
+export const getMyCoursesListAction = (coursesList) => {
+    return {
+        type: GET_MY_COURSES_LIST,
+        data: coursesList
+    }
+}
+export const getMyCoursesListWaiting = () =>{
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        axios.request({
+            method: 'POST',
+            url: 'QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet',
+            data: {taiKhoan: userInfo.taiKhoan}
+        }).then(result => {
+            dispatch(getMyCoursesListWaitingAction(result.data))
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+}
+export const getMyCoursesListWaitingAction = (coursesList) => {
+    return {
+        type: GET_MY_COURSES_LIST_WAITING,
+        data: coursesList
     }
 }

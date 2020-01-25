@@ -1,0 +1,32 @@
+.userDetailDashboard {
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 10px;
+    .myCardUser{
+      border-radius: 1.25rem;
+      .imageUserInfo {
+        padding: 0 150px;
+        height: 130px;
+        margin-top: 20px;
+      }
+      .cardBody{
+        padding-bottom: 10px;
+      }
+      .myNavLink{
+            transition: all 0.3s;
+            padding-top: 5px;
+            padding-bottom: 5px;
+          &:hover{
+              background-color: #0069D9;
+            color: white;
+          }
+      }
+      .userInfoTitle{
+        background: linear-gradient(to right, #9b3338, #d4494a);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+    }
+  
+}

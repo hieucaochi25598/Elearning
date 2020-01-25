@@ -18,6 +18,7 @@ import StarIcon from "@material-ui/icons/Star";
 import Button from "@material-ui/core/Button";
 import "aos/dist/aos.css";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { useState } from "react";
 const CourseList = props => {
   const { listCourses, price } = useSelector(state => state.courseReducer);
   const dispatch = useDispatch();
@@ -26,11 +27,17 @@ const CourseList = props => {
     dispatch(getAccountInfo());
   }, []);
 
-  const { loading } = useLoading();
+  const [loading, setLoading] = useState(true)
 
-  const handleFind = e => {
-    dispatch(findCourse(e.target.value));
-  };
+  useEffect(() =>{
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  
+  }, [listCourses])
+  // const { loading } = useLoading();
+
   return (
     <div className="container">
       <CourseTitle />
@@ -47,21 +54,19 @@ const CourseList = props => {
         initialValues={{
           tenKhoaHoc: ""
         }}
+        onSubmit={values => dispatch(findCourse(values.tenKhoaHoc))}
       >
-        {({ handleChange }) => (
+        {({ handleChange, handleSubmit}) => (
           <Form className="mb-4" style={{ width: "400px" }}>
             <FormGroup>
               <MyTextField
                 name="tenKhoaHoc"
                 type="text"
                 label="Tìm kiếm khóa học"
-                onChange={e => {
-                  handleChange(e);
-                  handleFind(e);
-                }}
+                
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position="start" onClick={handleSubmit}>
                       <SearchIcon fontSize="large" />
                     </InputAdornment>
                   )
@@ -84,6 +89,8 @@ const CourseList = props => {
                   <Skeleton variant="text" />
                   <Skeleton variant="text" />
                   <Skeleton variant="text" />
+                  <Skeleton variant="text" />
+                  
                 </div>
               </div>
             </div>
@@ -130,7 +137,7 @@ const CourseList = props => {
                     <span className="ml-2">5.0</span>
                   </div>
                   <h5 className="text-right">
-                    ${Math.floor(Math.random() * 101)}
+                    ${item.giaTien}
                   </h5>
                 </div>
               </div>

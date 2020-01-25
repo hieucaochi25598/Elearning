@@ -53,9 +53,10 @@ const validationSchema = yup.object({
 export const MyTextField = ({ ...props }) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : ''
+
     return (<CssTextField {...field} {...props}
         helperText={errorText}
-        error={errorText}
+        error={errorText ? true : false}
         variant="outlined"
     />)
 }

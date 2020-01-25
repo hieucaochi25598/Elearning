@@ -9,6 +9,7 @@ const CourseDetail = ({ ...props }) => {
     const dispatch = useDispatch()
     const { maKhoaHoc } = props.match.params
     const {accountInfo} = useSelector(state => state.userReducer)
+    const { courseDetail } = useSelector(state => state.courseReducer)
     const [isEnroll, setIsEnroll] = useState(false)
     useEffect(() => {
         dispatch(getCourseDetail(maKhoaHoc))
@@ -18,7 +19,7 @@ const CourseDetail = ({ ...props }) => {
         }
     }, [])
 
-    const { courseDetail } = useSelector(state => state.courseReducer)
+    
     const handleSuccess = () => {
         props.history.push('/course-list')
     }
