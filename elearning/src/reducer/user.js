@@ -1,12 +1,15 @@
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING } from "../contants/userConstants"
-
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART } from "../contants/userConstants"
+import Swal from "sweetalert2";
 //Luu thong tin user khi dang nhap
 const initialState = {
     userInfo: {},
     accountInfo: {},
     isOpen: false,
     myCoursesList: [],
-    myCousesListWaiting: []
+    myCousesListWaiting: [],
+    cartArray: [],
+    isSuccessAdd: false,
+    totalPrice: 0
 }
 
 const userReducer = (state = initialState, action) => {
@@ -26,11 +29,14 @@ const userReducer = (state = initialState, action) => {
         case EDIT_ACCOUNT_INFO:
             {   
                 const accountInfo = {...state.accountInfo}
+                const userInfo = {...state.userInfo}
                 accountInfo.matKhau = action.data.matKhau
                 accountInfo.hoTen = action.data.hoTen
                 accountInfo.soDT = action.data.soDt
                 accountInfo.maLoaiNguoiDung = action.data.maLoaiNguoiDung
-                return {...state, accountInfo}
+                userInfo.maLoaiNguoiDung = action.data.maLoaiNguoiDung
+                
+                return {...state, accountInfo, userInfo}
             }
         case GET_MY_COURSES_LIST:
             {
@@ -40,6 +46,33 @@ const userReducer = (state = initialState, action) => {
             {
                 return {...state, myCousesListWaiting: action.data}
             }
+        case ADD_TO_CART:
+            {
+                const cartArray = [...state.cartArray]
+                const index = cartArray.findIndex(item => item.maKhoaHoc === action.data.maKhoaHoc)
+                if(index === -1){
+                    cartArray.push(action.data)
+                    state.isSuccessAdd = true
+                }else{
+                    state.isSuccessAdd = false
+                }          
+                return {...state, cartArray}
+            }
+            case DELETE_CART:
+                {
+                    let cartArray = [...state.cartArray]
+                    cartArray = state.cartArray.filter(item => item.maKhoaHoc !== action.data)
+                    return {...state, cartArray}
+                }
+            case CAL_TOTAL_PRICE:
+
+                {   const cartArray = [...state.cartArray]
+                    state.totalPrice = 0
+                    for( let i = 0; i < cartArray.length; i++){
+                        state.totalPrice += cartArray[i].giaTien
+                    }
+                    return {...state}
+                }
         default:
             return state
     }

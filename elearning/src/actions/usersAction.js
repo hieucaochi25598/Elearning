@@ -69,14 +69,14 @@ export const userChosingAction = user => {
   };
 };
 
-export const getUserDetail = () => {
+export const getUserDetail = (taiKhoan) => {
   return (dispatch, getState) => {
     const { userChosing } = getState().usersReducer;
     axios
       .request({
         method: "POST",
         url: "QuanLyNguoiDung/ThongTinTaiKhoan",
-        data: { taiKhoan: userChosing.taiKhoan }
+        data: { taiKhoan: taiKhoan }
       })
       .then(result => {
         dispatch(getUserDetailAction(result.data));

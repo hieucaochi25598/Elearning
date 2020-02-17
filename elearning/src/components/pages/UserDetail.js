@@ -22,7 +22,8 @@ const UserDetail = () => {
   return (
     <div className={styles.userDetailDashboard}>
       <FormEditAccount />
-      <div className={`card text-center ${styles.myCardUser}`}>
+      {Object.keys(accountInfo).length === 0 ? (<div>Loading</div>) : (
+        <div className={`card text-center ${styles.myCardUser}`}>
         <img
           className={`card-img-top ${styles.imageUserInfo}`}
           src="/img/userImage.png"
@@ -84,6 +85,8 @@ const UserDetail = () => {
           </div>
         </div>
       </div>
+      )}
+      
     </div>
   );
 };

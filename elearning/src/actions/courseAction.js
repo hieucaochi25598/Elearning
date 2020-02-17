@@ -1,7 +1,7 @@
 import axios from '../util/axios'
 import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
-
+import Swal from 'sweetalert2'
 export const getCourseList = () =>{
     return dispatch => {
         axios.request({
@@ -10,6 +10,7 @@ export const getCourseList = () =>{
         }).then(result => {
             dispatch(getCourseListAction(result.data))
         }).catch(error => {
+
             console.log(error)
         })
     }
@@ -84,6 +85,13 @@ export const findCourse = (tenKhoaHoc) => {
         }).then(result => {
             dispatch(findCourseAction(result.data))
         }).catch(error => {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Không tìm thấy khóa học!',
+                showConfirmButton: false,
+                timer: 2500
+            })
             console.log(error)
         })
     }

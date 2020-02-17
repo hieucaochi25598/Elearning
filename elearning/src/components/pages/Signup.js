@@ -56,7 +56,7 @@ export const MyTextField = ({ ...props }) => {
 
     return (<CssTextField {...field} {...props}
         helperText={errorText}
-        error={errorText ? true : false}
+        error= {errorText ? true : false}
         variant="outlined"
     />)
 }

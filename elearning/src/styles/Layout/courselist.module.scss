@@ -1,44 +1,59 @@
 @import '../Helper/variable.scss';
 @import '../Helper/mixin.scss';
-.courseStar{
-    color: #f4c150;
-    font-size: 16px !important;
-}
-.courseListCard{
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
-    cursor: pointer;
-    transition: all 0.3s;
-    
-    .divImage{
-        position: relative;
-        .divInsideImage{
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: rgba(0, 0 ,0 ,0);
-            transition: all 0.3s;
-            
-            .myDetailButton{
-                opacity: 0;
+.courseList{
+    margin: 0 auto;
+    width: 97%;
+    .courseStar{
+        color: #f4c150;
+        font-size: 16px !important;
+    }
+    .courseListCard{
+        box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+        cursor: pointer;
+        transition: all 0.3s;
+        
+        .divImage{
+            position: relative;
+            .divInsideImage{
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);
+                width: 100%;
+                top: 0;
+                
+                left: 0;
+                height: 100%;
+                background: rgba(0, 0 ,0 ,0);
                 transition: all 0.3s;
-                outline: none;
-                background-color: #0069d9;
+                
+                .myDetailButton{
+                    opacity: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    transition: all 0.3s;
+                    outline: none;
+                    background-color: #0069d9;
+                }
+            }
+        }
+        &:hover{
+            box-shadow: 0 2px 8px 2px rgba(20,23,28,.15);
+            .divInsideImage{
+                background: rgba(0, 0 ,0 ,0.5);
+                .myDetailButton{
+                    opacity: 1;
+                }
             }
         }
     }
-    &:hover{
-        box-shadow: 0 2px 8px 2px rgba(20,23,28,.15);
-        .divInsideImage{
-            background: rgba(0, 0 ,0 ,0.5);
-            .myDetailButton{
-                opacity: 1;
-            }
-        }
-    }
+}
+.myDetailButton, .myCartButton{
+    width: 100%;
+    margin-bottom: 10px !important;
+}
+.myCartButton{
+    background: #ec5252 !important;
+}
+.myDetailButton{
+    background: #28a745 !important;
 }

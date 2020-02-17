@@ -62,7 +62,7 @@ const UserManagement = props => {
           )}
         </Formik>
       </div>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th>Tai khoan</th>
@@ -84,10 +84,9 @@ const UserManagement = props => {
               <td>
                 <button
                   className="btn btn-primary"
-                  onClick={() => {
-                    dispatch(userChosingAction(user));
-                    props.history.push(`/admin/user-detail/${user.taiKhoan}`);
-                  }}
+                  onClick={() =>
+                    props.history.push(`/admin/user-detail/${user.taiKhoan}`)
+                  }
                 >
                   Chi tiet
                 </button>

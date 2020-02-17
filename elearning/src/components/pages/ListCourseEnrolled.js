@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { courseChosenAction, cancleUserJoinCourse } from '../../actions/courseAction'
 
-const ListCourseEnrolled = () => {
+const ListCourseEnrolled = (props) => {
     const dispatch = useDispatch()
     const {userChosing, listCourseEnrolled} = useSelector(state => state.usersReducer)
     useEffect(() => {
         dispatch(getCourseListEnrolled())
     }, [])
+    console.log(props)
     return (
         <div>
             <h2>Danh sach khoa hoc da ghi danh</h2>

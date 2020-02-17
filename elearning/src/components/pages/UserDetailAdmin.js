@@ -5,12 +5,14 @@ import { getUserDetail } from "../../actions/usersAction";
 import { onToggleModal } from "../../actions/userActions";
 import FormEditUsers from "./FormEditUsers";
 
-const UserDetailAdmin = () => {
+const UserDetailAdmin = (props) => {
   const dispatch = useDispatch();
   const { userDetail } = useSelector(state => state.usersReducer);
+  const { taiKhoan} = props.match.params
   useEffect(() => {
-    dispatch(getUserDetail());
+    dispatch(getUserDetail(taiKhoan));
   }, []);
+
   return (
     <div>
       <FormEditUsers />

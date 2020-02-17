@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteSignUpCourse } from '../../actions/userActions'
-import { getCourseDetail } from '../../actions/courseAction'
+
 
 const SignUpCourses = (props) => {
     const { accountInfo } = useSelector(state => state.userReducer)

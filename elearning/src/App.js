@@ -30,8 +30,7 @@ import ListCourseEnrolled from './components/pages/ListCourseEnrolled';
 import ListCourseWaitEnrolled from './components/pages/ListCourseWaitEnrolled';
 import MyCourse from './components/pages/MyCourse';
 import MyCourseWaiting from './components/pages/MyCourseWaiting';
-
-
+import './styles/Base/reset.scss'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {

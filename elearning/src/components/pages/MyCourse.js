@@ -22,7 +22,7 @@ const MyCourse = () => {
     return (
         
         <div>
-           {listCourses.map(item => (
+           {myCoursesList.length !== 0 ? (listCourses.map(item => (
                <div key={item.maKhoaHoc}>
                {myCoursesList.map(myItem => (
                    <div key={myItem.maKhoaHoc}>
@@ -33,7 +33,7 @@ const MyCourse = () => {
                    </div>
                ))}
                </div>
-           ))}
+           ))) : <p>Bạn chưa được ghi danh khóa học</p>}
         </div>
     )
 }
