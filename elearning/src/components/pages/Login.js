@@ -30,10 +30,7 @@ const Login = (props) => {
 
     const dispatch = useDispatch()
     const handleSuccess = () => {
-        setTimeout(() => {
-            window.location.reload()
-        }, 1000)
-            props.history.replace("/home")
+        props.history.replace("/home")
     }
     const { loading } = useLoading()
 

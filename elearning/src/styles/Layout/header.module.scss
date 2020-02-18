@@ -1,20 +1,20 @@
 @import '../Helper/variable.scss';
 @import '../Helper/mixin.scss';
-.cartInfo{
-    background-color: #d5494b !important;
-    color: white !important;
-    font-size: 20px;
-    padding: 10px 15px;
-}
-.cartButton{
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 0;
-    box-shadow: none !important;
-    border-radius: unset;
-    outline: unset;
-}
+    .cartInfo{
+        background-color: #d5494b !important;
+        color: white !important;
+        font-size: 20px;
+        padding: 10px 15px;
+    }
+    .cartButton{
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 0;
+        box-shadow: none !important;
+        border-radius: unset;
+        outline: unset;
+    }
 .myNavbar{
     box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
     padding: 0;

@@ -6,7 +6,6 @@ import styles from "../../styles/Layout/coursetitle.module.scss";
 import LaptopChromebookIcon from "@material-ui/icons/LaptopChromebook";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import "aos/dist/aos.css";
-import AOS from "aos";
 const CourseTitle = () => {
   const dispatch = useDispatch();
   const { courseTitle } = useSelector(state => state.courseReducer);

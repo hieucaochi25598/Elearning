@@ -14,7 +14,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { useState } from "react";
 import styles from "../../styles/Layout/header.module.scss";
@@ -29,11 +29,9 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
 import HomeIcon from "@material-ui/icons/Home";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-
-import { Redirect } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { deleteCart, calTotalPrice } from "../../actions/userActions";
-import { useEffect } from "react";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -44,13 +42,11 @@ const Header = () => {
     state => state.userReducer
   );
   const handleLogout = () => {
+    
     localStorage.removeItem("userInfo");
     window.location.reload();
-    return <Redirect to="/home" />;
   };
-  useEffect(() => {
-    dispatch(calTotalPrice());
-  }, [cartArray]);
+  
   return (
     <div>
       <Navbar className={styles.myNavbar} light expand="md">
@@ -122,8 +118,8 @@ const Header = () => {
                         }
                       })
                     }
-                    // tag={Link}
-                    // to="/home"
+                    tag={Link}
+                    to="/home"
                     className={styles.myDropDown}
                   >
                     <ExitToAppIcon /> Đăng xuất
@@ -151,10 +147,12 @@ const Header = () => {
           </Nav>
         </Collapse>
       </Navbar>
+      
       <UncontrolledPopover
         trigger="legacy"
         placement="bottom"
         target="PopoverCart"
+        
       >
         <PopoverHeader className={styles.cartInfo}>
           <AddShoppingCartIcon className="mr-1" /> Thông tin giỏ hàng
@@ -163,7 +161,7 @@ const Header = () => {
           <PopoverBody>
             {cartArray.map((item, index) => (
               <div className="row mb-2 align-items-center" key={index}>
-                <div className="col-4">
+                <div className="col-4 pr-0">
                   <div>
                     <img
                       src={item.hinhAnh}
@@ -183,7 +181,7 @@ const Header = () => {
                 <div className="col-3 pl-0">
                   <Button
                     color="danger"
-                    onClick={() => dispatch(deleteCart(item.maKhoaHoc))}
+                    onClick={() => {dispatch(deleteCart(item.maKhoaHoc)); dispatch(calTotalPrice())}}
                   >
                     <DeleteForeverIcon fontSize="large" />
                   </Button>
@@ -201,7 +199,8 @@ const Header = () => {
           </PopoverBody>
         )}
       </UncontrolledPopover>
-    </div>
+      </div>
+   
   );
 };
 export default Header;

@@ -23,13 +23,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as yup from "yup";
 export const MyInput = ({ ...props }) => {
   const [field, meta] = useField(props);
+  //field bao gom onChange, onBlur, name, value
+  //meta bao gom error, touched, ...
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <React.Fragment>
       <Input
         {...field}
         {...props}
-        invalid={errorText ? true : false}
+        invalid={meta.error && meta.touched ? true : false}
         valid={!meta.error && meta.touched ? true : false}
       />
       <FormFeedback>{errorText}</FormFeedback>

@@ -31,6 +31,7 @@ import ListCourseWaitEnrolled from './components/pages/ListCourseWaitEnrolled';
 import MyCourse from './components/pages/MyCourse';
 import MyCourseWaiting from './components/pages/MyCourseWaiting';
 import './styles/Base/reset.scss'
+
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -38,13 +39,10 @@ function App() {
     if (userInfo) {
       setAuthorization(userInfo.accessToken)
       dispatch(getUserInfo(userInfo))
-      
     }
   }, [])
   return (
     <div className="App">
-      
-      
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
@@ -65,10 +63,11 @@ function App() {
 
         {/* Nguoi Dung Route */}
         <UserLayout path="/">
-          <Redirect to="/home" component={Home} />
+          {/* <Redirect to="/home" component={Home} /> */}
           <Switch>
-            <UserAuth path="/course-detail/:maKhoaHoc" component={CourseDetail} />
+            <Route exact path="/" component={() => (<Redirect to="/home"/>)}/>
             <Route path="/home" component={Home} />
+            <UserAuth path="/course-detail/:maKhoaHoc" component={CourseDetail} />
             <Route path="/course-list" component={CourseList} />
             <UserDetailLayout path="/account-info/:taiKhoan">
               <Switch>

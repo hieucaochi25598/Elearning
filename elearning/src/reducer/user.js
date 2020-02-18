@@ -49,8 +49,9 @@ const userReducer = (state = initialState, action) => {
         case ADD_TO_CART:
             {
                 const cartArray = [...state.cartArray]
+                const userInfo = {...state.userInfo}
                 const index = cartArray.findIndex(item => item.maKhoaHoc === action.data.maKhoaHoc)
-                if(index === -1){
+                if(index === -1 && Object.keys(userInfo).length !== 0){
                     cartArray.push(action.data)
                     state.isSuccessAdd = true
                 }else{
