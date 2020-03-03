@@ -29,25 +29,29 @@ const CssTextField = withStyles({
 })(TextField)
 const validationSchema = yup.object({
     taiKhoan: yup.string()
-        .required('Field is required')
-        .max(50, 'Max 50 characters')
-        .min(5, 'Min 5 characters'),
+        .required('*Vui lòng nhập tài khoản*')
+        .max(30, '*Tài khoản tối đa 30 ký tự*')
+        .min(5, '*Tài khoản ít nhất 5 ký tự*'),
     matKhau: yup.string()
-        .required('Field is required')
-        .max(30, 'Max 30 characters')
-        .min(5, 'Min 5 characters'),
+        .required('*Vui lòng nhập mật khẩu*')
+        .max(30, '*Mật khẩu tối đa 30 ký tự*')
+        .min(5, '*Mật khẩu ít nhất 5 ký tự*'),
     xacNhanMatKhau: yup.string()
-        .oneOf([yup.ref('matKhau')], 'Both password need to be the same')
-        .required('Field is required'),
+        .oneOf([yup.ref('matKhau')], '*Xác nhận mật khẩu không đúng*')
+        .required('*Vui lòng xác nhận mật khẩu*'),
     hoTen: yup.string()
-        .required('Field is required'),
+        .required('*Vui lòng nhập họ tên*')
+        .max(30, '*Họ tên tối đa 30 ký tự*')
+        .min(5, '*Họ tên ít nhất 5 ký tự*')
+        .matches(/^([^0-9]*)$/, '*Họ tên không được chứa ký số*')
+        ,
     soDT: yup.string()
-        .required('Field is required')
-        .matches(/(09|01[2|6|8|9])+([0-9]{8})\b/g, 'Invalid number'),
+        .required('*Vui lòng nhập số điện thoại*')
+        .matches(/(09|01[2|6|8|9])+([0-9]{8})\b/g, '*Số điện thoại không hợp lệ*'),
     email: yup.string()
-        .required('Field is required')
+        .required('*Vui lòng nhập email*')
         .matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/igm
-            , 'Invalid email')
+            , '*Email không hợp lệ*')
 })
 
 export const MyTextField = ({ ...props }) => {
@@ -103,7 +107,7 @@ const Signup = (props) => {
                                                 className={styles.myTextField}
                                                 type="text"
                                                 name="taiKhoan"
-                                                label="Username"
+                                                label="Tài khoản"
                                                 InputProps={{
                                                     startAdornment: <InputAdornment position="start">
                                                         <i className="fa fa-user"></i>
@@ -116,10 +120,10 @@ const Signup = (props) => {
                                                 className={styles.myTextField}
                                                 type={showPassWord ? "text" : "password"}
                                                 name="matKhau"
-                                                label="Password"
+                                                label="Mật khẩu"
                                                 InputProps={{
                                                     startAdornment: <InputAdornment position="start">
-                                                        <i class="fa fa-lock"></i>
+                                                        <i className="fa fa-lock"></i>
                                                     </InputAdornment>,
                                                     endAdornment: <InputAdornment position="end">
                                                         <i className="fa fa-eye"
@@ -135,10 +139,10 @@ const Signup = (props) => {
                                                 className={styles.myTextField}
                                                 type={showPassWord ? "text" : "password"}
                                                 name="xacNhanMatKhau"
-                                                label="Confirm password"
+                                                label="Xác nhận mật khẩu"
                                                 InputProps={{
                                                     startAdornment: <InputAdornment position="start">
-                                                        <i class="fa fa-lock"></i>
+                                                        <i className="fa fa-lock"></i>
                                                     </InputAdornment>,
                                                     endAdornment: <InputAdornment position="end">
                                                         <i className="fa fa-eye" onClick={() => setShowPassWord(!showPassWord)} style={{ cursor: "pointer", color: "black" }}></i>
@@ -151,7 +155,7 @@ const Signup = (props) => {
                                                 className={styles.myTextField}
                                                 type="text"
                                                 name="hoTen"
-                                                label="Fullname"
+                                                label="Họ tên"
                                                 InputProps={{
                                                     startAdornment: <InputAdornment position="start">
                                                         <i className="fa fa-info"></i>
@@ -164,7 +168,7 @@ const Signup = (props) => {
                                                 className={styles.myTextField}
                                                 type="text"
                                                 name="soDT"
-                                                label="Phone number"
+                                                label="Số điện thoại"
                                                 InputProps={{
                                                     startAdornment: <InputAdornment position="start">
                                                         <i className="fa fa-phone"></i>
@@ -187,7 +191,7 @@ const Signup = (props) => {
                                         </FormGroup>
                                     </div>
                                     <Link to="/login" className="d-block mb-3">Already have an account? Login now</Link>
-                                    <Button onClick={handleSubmit} className={styles.myBtn}>Sign up</Button>
+                                    <Button onClick={handleSubmit} className={styles.myBtn}>Đăng ký</Button>
                                 </Form>
                             }
                         </Formik>

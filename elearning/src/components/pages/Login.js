@@ -14,8 +14,8 @@ import useLoading from '../../customHook/useLoading'
 const Login = (props) => {
 
     const validationSchema = yup.object({
-        taiKhoan: yup.string().required('Field is required'),
-        matKhau: yup.string().required('Field is required')
+        taiKhoan: yup.string().required('*Vui lòng nhập tài khoản*'),
+        matKhau: yup.string().required('*Vui lòng nhập mật khẩu*')
     })
     const [showPassWord, setShowPassWord] = useState()
 
@@ -63,7 +63,7 @@ const Login = (props) => {
                                         className={styles.myTextField}
                                         type="text"
                                         name="taiKhoan"
-                                        label="Username"
+                                        label="Tài khoản"
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start">
                                                 <i className="fa fa-user"></i>
@@ -76,10 +76,10 @@ const Login = (props) => {
                                         className={styles.myTextField}
                                         type={showPassWord ? "text" : "password"}
                                         name="matKhau"
-                                        label="Password"
+                                        label="Mật khẩu"
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start">
-                                                <i class="fa fa-lock"></i>
+                                                <i className="fa fa-lock"></i>
                                             </InputAdornment>,
                                             endAdornment: <InputAdornment position="end">
                                                 <i className="fa fa-eye" onClick={() => setShowPassWord(!showPassWord)} style={{ cursor: "pointer", color: "black" }}></i>
@@ -88,7 +88,7 @@ const Login = (props) => {
                                     />
                                 </FormGroup>
                                 <Link to="/signup" className="d-block mb-3">Don't have an account? Sign up now</Link>
-                                <Button className={styles.myBtnLogin} onClick={handleSubmit}>Login</Button>
+                                <Button className={styles.myBtnLogin} onClick={handleSubmit}>Đăng nhập</Button>
                             </Form>
                         }
                     </Formik>

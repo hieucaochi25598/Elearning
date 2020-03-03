@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 
 //API Dang KY
@@ -33,7 +33,6 @@ export const signUpAction = (values, handleSuccess) => {
 //API Dang nhap
 export const logInAction = (values, handleSuccess) => {
     return (dispatch, getState) => {
-        
         axios.request({
             method: 'POST',
             url: 'QuanLyNguoiDung/DangNhap',
@@ -42,6 +41,12 @@ export const logInAction = (values, handleSuccess) => {
             setAuthorization(result.data.accessToken)
             localStorage.setItem("userInfo", JSON.stringify(result.data))
             dispatch(getUserInfo(result.data))
+            dispatch(getAccountInfo())
+            const cartArray = JSON.parse(localStorage.getItem('cartArray'))
+            if(cartArray){
+                dispatch(getCartArrayAction(cartArray))
+                dispatch(calTotalPrice())
+            }
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -72,10 +77,11 @@ export const getUserInfo = (user) => {
 export const getAccountInfo = () => {
     return (dispatch, getState) => {
         const { userInfo } = getState().userReducer
+        const dataSubmit = { taiKhoan: userInfo.taiKhoan}
         axios.request({
             method: 'POST',
             url: '/QuanLyNguoiDung/ThongTinTaiKhoan',
-            data: { taiKhoan: userInfo.taiKhoan }
+            data: dataSubmit
         }).then(result => {
             dispatch(getAccountInfoAction(result.data))
         }).catch(error => {
@@ -104,10 +110,7 @@ export const editAccountInfo = (values) => {
             url: '/QuanLyNguoiDung/CapNhatThongTinNguoiDung',
             data: {...values, maNhom: 'GP01'}
         }).then(result => {
-
-            dispatch(editAccountInfoAction(result.data))
-            // setAuthorization(userInfo.accessToken)
-            
+            dispatch(editAccountInfoAction(values))
         }).catch(error => {
             console.log(error)
         })
@@ -120,23 +123,24 @@ export const editAccountInfoAction = (accountInfo) => {
     }
 }
 //Dang ky khoa hoc
-export const signUpCourse = (handleSuccess) =>{
+export const signUpCourse = (maKhoaHoc, handleSuccess) =>{
     return (dispatch, getState) => {
         const {userInfo} = getState().userReducer
-        const {courseDetail} = getState().courseReducer
         axios.request({
             method: 'POST',
             url:'/QuanLyKhoaHoc/DangKyKhoaHoc',
             data: {
-                maKhoaHoc: courseDetail.maKhoaHoc,
+                maKhoaHoc,
                 taiKhoan: userInfo.taiKhoan
             }
         }).then(result => {
+            dispatch(signUpCourseAction(maKhoaHoc))
             handleSuccess()
+
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Enroll Successfully',
+                title: 'Thanh toán thành công. Vui lòng chờ xét duyệt!',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -145,46 +149,56 @@ export const signUpCourse = (handleSuccess) =>{
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'You have enrolled this course',
+                title: 'Thanh toán thất bại',
                 showConfirmButton: true,
             })
         })
     }
 }
+export const signUpCourseAction = (course) => {
+    return {
+        type: SIGNUP_COURSE,
+        data: course
+    }
+}
+//Xu ly gio hang sau khi thanh toan
+export const clearCartAction = () => {
+    return {
+        type: CLEAR_CART
+    }
+
+}
 //Huy dang ky 
-export const deleteSignUpCourse = (handleSuccess) => {
-    
+export const deleteSignUpCourse = (maKhoaHoc) => {
     return (dispatch, getState) => {
         const {userInfo} = getState().userReducer
-        const {courseDetail} = getState().courseReducer         
         axios.request({
             method: 'POST',
             url: '/QuanLyKhoaHoc/HuyGhiDanh',
             data: {
-                maKhoaHoc: courseDetail.maKhoaHoc,
+                maKhoaHoc,
                 taiKhoan: userInfo.taiKhoan
             }
         }).then(result => {
-            handleSuccess()
+            dispatch(deleteSignUpCourseAction(maKhoaHoc))
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Cancel Enroll Successfully',
+                title: 'Hủy đăng ký thành công',
                 showConfirmButton: false,
                 timer: 2500
             })
         }).catch(error => {
             console.log(error)
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'You have not enrolled this course',
-                showConfirmButton: true,
-            })
         })
     }
 }
-
+export const deleteSignUpCourseAction = (maKhoaHoc) => {
+    return {
+        type:   DELETE_SIGNUP_COURSE,
+        data: maKhoaHoc
+    }
+}
 //lay danh sach khoa hoc ma nguoi dung da duoc xet duyet
 export const getMyCoursesList = () =>{
     return (dispatch, getState) => {
@@ -239,7 +253,12 @@ export const deleteCart = (maKhoaHoc) => {
         data: maKhoaHoc
     }
 }
-
+export const getCartArrayAction = (cartArray) => {
+    return {
+        type: GET_CART_ARRAY,
+        data: cartArray
+    }
+}
 export const calTotalPrice = () => {
     return {
         type: CAL_TOTAL_PRICE,

@@ -1,59 +1,83 @@
-@import '../Helper/variable.scss';
-@import '../Helper/mixin.scss';
-.courseList{
-    margin: 0 auto;
-    width: 97%;
-    .courseStar{
-        color: #f4c150;
-        font-size: 16px !important;
+@import "../Helper/variable.scss";
+@import "../Helper/mixin.scss";
+.courseList {
+  margin: 0 auto;
+  width: 85%;
+  .titleCourseList {
+    @include styleText(25px, $fw-bold, #3c3b37);
+    margin-top: 30px;
+  }
+  .imgCourseList {
+    position: relative;
+    .findForm {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 5%;
     }
-    .courseListCard{
-        box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+  }
+  .courseStar {
+    color: #f4c150;
+    font-size: 16px !important;
+  }
+
+  .courseListItem{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+    .courseListItemCard{
+      
+      .courseListCard {
+        box-shadow: 0 0 1px 1px rgba(20, 23, 28, 0.1),
+          0 3px 1px 0 rgba(20, 23, 28, 0.1);
         cursor: pointer;
         transition: all 0.3s;
-        
-        .divImage{
-            position: relative;
-            .divInsideImage{
-                position: absolute;
-                width: 100%;
-                top: 0;
-                
-                left: 0;
-                height: 100%;
-                background: rgba(0, 0 ,0 ,0);
-                transition: all 0.3s;
-                
-                .myDetailButton{
-                    opacity: 0;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%,-50%);
-                    transition: all 0.3s;
-                    outline: none;
-                    background-color: #0069d9;
-                }
+    
+        .divImage {
+          position: relative;
+          .divInsideImage {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            transition: all 0.3s;
+    
+            .myDetailButton {
+              opacity: 0;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              transition: all 0.3s;
+              outline: none;
+              background-color: #0069d9;
             }
+          }
         }
-        &:hover{
-            box-shadow: 0 2px 8px 2px rgba(20,23,28,.15);
-            .divInsideImage{
-                background: rgba(0, 0 ,0 ,0.5);
-                .myDetailButton{
-                    opacity: 1;
-                }
+        &:hover {
+          box-shadow: 0 2px 8px 2px rgba(20, 23, 28, 0.15);
+          .divInsideImage {
+            background: rgba(0, 0, 0, 0.5);
+            .myDetailButton {
+              opacity: 1;
             }
+          }
         }
+      }
     }
+  }
+  
 }
-.myDetailButton, .myCartButton{
-    width: 100%;
-    margin-bottom: 10px !important;
+.myDetailButton,
+.myCartButton {
+  width: 100%;
+  margin-bottom: 10px !important;
 }
-.myCartButton{
-    background: #ec5252 !important;
+.myCartButton {
+  background: #ec5252 !important;
 }
-.myDetailButton{
-    background: #28a745 !important;
+.myDetailButton {
+  background: #28a745 !important;
 }

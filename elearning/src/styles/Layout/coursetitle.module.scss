@@ -1,29 +1,15 @@
 @import '../Helper/variable.scss';
 @import '../Helper/mixin.scss';
-.courseTitleH3{
-    background: linear-gradient(to right, #741d52, #c44052);
-    color: white;
-    font-size: 30px;
-    font-weight: 300;
-
-    padding: 20px 15px;
-    margin: 20px 0;
-}
-.courseTitleCard{
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
-    transition: 0.3s;
-   
-    &:hover {
-        box-shadow: 0 2px 8px 2px rgba(20,23,28,.15);
+.titleItem{
+    font-weight: bold;
+    cursor: pointer;
+    border:none !important;
+    color: #73726c !important;
+    &:hover{
+        border-bottom: 2px solid #3c3b37 !important;
     }
 }
-.divSpinner{
-    position: relative;
-    height: 100vh;
-    .Spinner{
-        position: absolute;
-        
-        left: 45%;
-        
-    }
+.titleItem.activeTitle{
+    border-bottom: 2px solid #3c3b37 !important;
+    color: #3c3b37 !important;
 }

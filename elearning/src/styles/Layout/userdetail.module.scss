@@ -1,32 +1,136 @@
-.userDetailDashboard {
-    margin-top: 20px;
-    margin-left: 20px;
-    border-radius: 10px;
-    .myCardUser{
-      border-radius: 1.25rem;
-      .imageUserInfo {
-        padding: 0 150px;
-        height: 130px;
-        margin-top: 20px;
+@import "../Helper/variable.scss";
+@import "../Helper/mixin.scss";
+@import "../Component/loading.scss";
+.userDetailContainer {
+  background-color: #f5f5f5;
+  height: 100%;
+  .userDetailCourses {
+    .userDetailCoursesItem {
+      margin-bottom: $mg-1 + 10;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover {
+        box-shadow: 0 0 2px 1px rgba(20, 23, 28, 0.1),
+          0 3px 9px 0 rgba(20, 23, 28, 0.1);
+        .divInImage {
+          background: rgba(0, 0, 0, 0.5);
+        }
       }
-      .cardBody{
-        padding-bottom: 10px;
+      .courseDetailButton {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        @include styleButton(white, #28a745, $pd-1, $pd-1, #28a745);
+        &:hover {
+          @include styleButtonHover(#28a745, white, #28a745);
+        }
       }
-      .myNavLink{
-            transition: all 0.3s;
-            padding-top: 5px;
-            padding-bottom: 5px;
-          &:hover{
-              background-color: #0069D9;
-            color: white;
-          }
+      .cancleButton {
+        @include styleButton(white, #ea5252, $pd-1, $pd-1, #ea5252);
+        &:hover {
+          @include styleButtonHover(#ea5252, white, #ea5252);
+        }
       }
-      .userInfoTitle{
-        background: linear-gradient(to right, #9b3338, #d4494a);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
+      .divImage {
+        position: relative;
+
+        .imageCourse {
+          border-radius: 10px 0 0 10px;
+          width: 100%;
+          height: 150px;
+        }
+        .divInImage {
+          position: absolute;
+          border-radius: 10px 0 0 10px;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          transition: all 0.3s;
+        }
+      }
+
+      .userDetailCoursesContent {
+        p {
+          margin-bottom: 0px;
+          color: #73726c;
+        }
+        .fullName {
+          font-size: 12px;
+        }
+        .courseTitle {
+          font-size: 15px;
+        }
+        .courseStar {
+          font-size: 15px;
+          color: #eb8a2f;
+          margin-bottom: $mg-1 - 5;
+        }
       }
     }
-  
+  }
+
+  .userDetailDashboard {
+    height: 100%;
+    box-shadow: 0 0 10px 1px rgba(20, 23, 28, 0.1),
+      0 0px 0px 0px rgba(20, 23, 28, 0.1);
+    background-color: white;
+    border-radius: 10px;
+    .userInfo {
+      text-align: center;
+      .userInfoIcons {
+        svg {
+          margin: 5px;
+        }
+        .iconFacebook {
+          color: #4267b2;
+        }
+        .iconTwitter {
+          color: #1da1f2;
+        }
+      }
+      .edtButton {
+        background-color: white;
+        color: #1976d2;
+        outline: none;
+        margin: 10px 0;
+        border-radius: 40px;
+        padding: 10px 20px;
+        border: 1px solid #1976d2;
+        transition: all 0.3s;
+        &:hover {
+          @include styleButtonHover(#1976d2, white, #1976d2);
+        }
+      }
+      .imgUserInfo {
+        font-size: 7rem;
+        margin-top: 20px;
+        color: #1976d2;
+      }
+    }
+    .userInfoPersonal {
+      padding: 20px;
+      margin-top: 20px;
+      border-top: 1px solid #d5d5d5;
+      p {
+        color: #6c757d;
+      }
+    }
+    .userCourseTitle {
+      padding: $pd-2;
+      border-top: 1px solid #d5d5d5;
+
+      .courseTitleButton {
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: $mg-1;
+        border-radius: 50px !important;
+        @include styleButton(white, #01d722, $pd-1, $pd-1, #01d722);
+        &:hover {
+          @include styleButtonHover(#01d722, white, #01d722);
+        }
+      }
+    }
+  }
 }

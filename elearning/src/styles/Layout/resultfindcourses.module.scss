@@ -1,0 +1,59 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+.resultCourses{
+    .resultTitle{
+        padding: 30px 0;
+        background-color: #f7f8fa;
+        margin-bottom: $mg-2 + 10;
+        .resultTitleContent{
+            color: #424242;
+            width: 75%;
+            margin: 0 auto;
+            font-size: 20px;
+        }
+    }
+    .listCoursesFoundContainer{
+        width: 75%;
+        margin: 0 auto;
+        p{
+            margin-bottom: 0;
+        }
+        .listCoursesFoundContent{
+            
+            padding-top: $pd-2;
+            padding-bottom: $pd-2 * 2;
+            border-top: 1px solid #dedfe0;
+            cursor: pointer;
+            &:hover{
+                background-color: #f7f8fa;
+            }
+            .listCoursesText{
+                .fullName{
+                    @include styleText(13px, $fw-normal, #686f7a);
+                }
+                .courseTitle{
+                    @include styleText(15px, $fw-normal, #686f7a);
+                }
+                .sellText{
+                    background: #F4C150;
+                    padding: 2px 5px;
+                    font-size: 13px;
+                    border-radius: 4px;
+                    margin-bottom: 10px;
+                }
+            }
+            .starIcons{
+                @include styleText(18px, $fw-normal, #f4c150);
+            }
+            .starNumber{
+                @include styleText(12px, $fw-normal, #686f7a);
+                margin-left: $mg-1 - 5 ;
+            }
+            .ratingNumber{
+                @include styleText(13px, $fw-normal, #686f7a);
+            }
+            
+        }
+    }
+
+}

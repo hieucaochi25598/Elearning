@@ -1,8 +1,9 @@
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE } from "../contants/courseConstant"
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT } from "../contants/courseConstant"
 
 const initialState = {
     listCourses: [],
-    currenPage: 1,
+    listCoursesFound:[],
+    currentPage: 1,
     totalCount: 0,
     courseDetail: {},
     courseTitle: [],
@@ -10,20 +11,22 @@ const initialState = {
     userOfCourse: [],
     userNotChoseCourse: [],
     userWaitCourse: [],
-    price: 13
 }
 
 const courseReducer = (state = initialState, action) => {
     switch (action.type) {
+        case CHANGE_PAGE:
+            {        
+                return {...state, currentPage: action.data}
+            }
+        case GET_COURSE_LIST_ALL:
+            {
+                return {...state, listCourses: action.data}
+            }
         case GET_COURSE_LIST:
             {
-                const listCourses = action.data.map(item => {
-                    return {
-                        ...item,
-                        giaTien: Math.floor(Math.random() * 101)
-                    }
-                })
-                return { ...state, listCourses}
+                
+                return {...state, listCourses: action.data.items, totalCount: action.data.totalCount}
             }
         case GET_COURSE_DETAIL:
             {
@@ -35,25 +38,28 @@ const courseReducer = (state = initialState, action) => {
             }
         case GET_COURSE_FROM_TITLE:
             {
-                const listCourses = action.data.map(item => {
-                    return {
-                        ...item,
-                        giaTien: Math.floor(Math.random() * 101)
-                    }
-                })
-                return { ...state, listCourses}
+                
+                return { ...state, listCourses:action.data}
             }
         case FIND_COURSE:
 
             {
-                const listCourses = action.data.map(item => {
-                    return {
-                        ...item,
-                        giaTien: Math.floor(Math.random() * 101)
-                    }
-                })
-                return { ...state, listCourses }
+                
+                return { ...state, listCoursesFound:action.data }
             }
+        case FIND_COURE_NO_RESULT:
+            {
+                return {...state, listCoursesFound: []}
+            }
+        case DELETE_COURSE: {
+            const listCourses = [...state.listCourses]
+            const index = listCourses.findIndex(item => item.maKhoaHoc === action.data)
+            if(index !== -1)
+            {
+                listCourses.splice(index, 1)
+            }
+            return {...state, listCourses}
+        }
         case COURSE_CHOSEN:
             {
                 return {...state, courseChosen: action.data}

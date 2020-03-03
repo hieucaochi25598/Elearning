@@ -1,14 +1,15 @@
 import axios from '../util/axios'
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE } from '../contants/courseConstant'
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
-import Swal from 'sweetalert2'
-export const getCourseList = () =>{
+export const getCourseList = (currentPage, pageSize,handleSuccess) =>{
     return dispatch => {
         axios.request({
             method: 'GET',
-            url: 'QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01',
+            url: `QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=${currentPage}&pageSize=${pageSize}&MaNhom=GP01`,
         }).then(result => {
+            
             dispatch(getCourseListAction(result.data))
+            handleSuccess()
         }).catch(error => {
 
             console.log(error)
@@ -19,6 +20,31 @@ export const getCourseListAction = (courseList) => {
     return{
         type: GET_COURSE_LIST,
         data: courseList
+    }
+}
+export const getCourseListAll = (handleSuccess) => {
+    return dispatch => {
+        axios.request({
+            method: 'GET',
+            url: 'QuanLyKhoaHoc/LayDanhSachKhoaHoc',
+        }).then(result => {
+            dispatch(getCourseListAllAction(result.data))
+            handleSuccess()
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+}
+export const getCourseListAllAction = (courseList) => {
+    return {
+        type: GET_COURSE_LIST_ALL,
+        data: courseList
+    }
+}
+export const changePageAction = page => {
+    return {
+        type: CHANGE_PAGE,
+        data: page
     }
 }
 export const getCourseDetail = (maKhoaHoc) => {
@@ -77,21 +103,19 @@ export const getCourseFromTitleAction = (courses) => {
         data: courses
     }
 }
-export const findCourse = (tenKhoaHoc) => {
-    return dispatch => {
+
+export const findCourse = (tenKhoaHoc, handleSuccess) => {
+    return (dispatch) => {
+        
         axios.request({
             method: 'GET',
             url: `QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=GP01`
         }).then(result => {
             dispatch(findCourseAction(result.data))
+            handleSuccess()
         }).catch(error => {
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'Không tìm thấy khóa học!',
-                showConfirmButton: false,
-                timer: 2500
-            })
+            dispatch(findCourseNoResultAction())
+            handleSuccess()
             console.log(error)
         })
     }
@@ -102,17 +126,28 @@ export const findCourseAction = (course) => {
         data: course
     }
 }
-
+export const findCourseNoResultAction = () => {
+    return {
+        type: FIND_COURE_NO_RESULT
+    }
+}
 export const deleteCourse = (maKhoaHoc) =>{
     return dispatch => {
         axios.request({
             method: 'DELETE',
             url: `QuanLyKhoaHoc/XoaKhoaHoc?maKhoaHoc=${maKhoaHoc}`
         }).then(result => {
-            dispatch(getCourseList())
+            // dispatch(getCourseList())
+            dispatch(deleteCourseAction(maKhoaHoc))
         }).catch(error => {
             console.log(error)
         })
+    }
+}
+export const deleteCourseAction = (maKhoaHoc) => {
+    return {
+        type: DELETE_COURSE,
+        data: maKhoaHoc
     }
 }
 export const courseChosenAction = (course) => {

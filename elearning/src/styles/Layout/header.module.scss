@@ -1,75 +1,123 @@
-@import '../Helper/variable.scss';
-@import '../Helper/mixin.scss';
-    .cartInfo{
-        background-color: #d5494b !important;
-        color: white !important;
-        font-size: 20px;
-        padding: 10px 15px;
+@import "../Helper/variable.scss";
+@import "../Helper/mixin.scss";
+.cartInfo {
+  background-color: #d5494b !important;
+  color: white !important;
+  font-size: 20px;
+  padding: 10px 15px;
+}
+.totalPriceCart {
+  background-color: #f2f3f5;
+  padding: $pd-2;
+  .cartButton {
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: #007791;
+    border: 1px solid #007791;
+    margin-bottom: 10px;
+    margin-left: 0;
+    box-shadow: none !important;
+    width: 100%;
+    border-radius: unset;
+    outline: unset;
+    &:hover {
+      background-color: #00576b;
+      border: 1px solid #00576b;
     }
-    .cartButton{
-        margin-right: 10px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 0;
-        box-shadow: none !important;
-        border-radius: unset;
-        outline: unset;
-    }
-.myNavbar{
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
-    padding: 0;
-    .myTextLogo{
-        color: $color-red-0;
-        font-size: $fs-3;
-        font-weight: $fw-bold;
-    }
-    i{
-        font-size:25px;
-        color: $color-blue;
-        
-    }
-    .myNavItem{
-        margin: 0 $mg-1;
-        .myNavLink{
-            text-decoration: none;
-            color: $color-blue;
-            border-radius: 5px;
-           
-            .myLink{
-                text-decoration: none;
-                color: #505763;
-            }
-            &:hover{
-                background-color: #d54a4b;
-                color: white;
+  }
+}
 
-            }
-           
-        }
-        .myCart{
-            cursor: pointer;
-            background: white;
-            border-radius: 50%;
-            &:hover{
-                background: #f1f1f1;
-            }
-            
-           }
-        .myBtnLogin{
-            @include styleButton($color-white-0, $color-black-0, $pd-1, $pd-2, $color-black-1);
-            &:hover{
-                @include styleButtonHover($color-grey-1, $color-black-0, $color-black-0)
-            }
-        }
-        .myBtnSignUp{
-            @include styleButton($color-red-0, $color-red-0, $pd-1, $pd-2, $color-white-0);
-            &:hover{
-                @include styleButtonHover($color-red-1, $color-white-0, $color-red-1)
-            }
-        }
+.myNavbar {
+  box-shadow: 0 0 1px 1px rgba(20, 23, 28, 0.1),
+    0 3px 1px 0 rgba(20, 23, 28, 0.1);
+  padding: 15px 0;
+  .myTextLogo {
+    color: $color-red-0;
+    font-size: $fs-3;
+    font-weight: $fw-bold;
+  }
+  i {
+    font-size: 25px;
+    color: $color-blue;
+  }
+  .myNavItem {
+    margin: 0 $mg-1;
+    .myNavLink {
+      text-decoration: none;
+      color: $color-blue;
+      border-radius: 5px;
+
+      .myLink {
+        text-decoration: none;
+        color: #505763;
+      }
+      &:hover {
+        background-color: #d54a4b;
+        color: white;
+      }
     }
-    .myDropDown{
-        color: #007bff;
+    .myCart {
+      cursor: pointer;
+      background: white;
+      position: relative;
+      border-radius: 50%;
+      &:hover {
+        background: #f1f1f1;
+      }
+      .cartNotice {
+        position: absolute;
+        top: 23px;
+        right: 5px;
+        background: #ec5252;
+        height: 13px;
+        width: 13px;
+        line-height: 13px;
+        font-size: 10px;
+        text-align: center;
+        border-radius: 50%;
+        color: white;
+      }
     }
-    
+    .myBtnLogin {
+      @include styleButton(
+        $color-white-0,
+        $color-black-0,
+        $pd-1,
+        $pd-2,
+        $color-black-1
+      );
+      &:hover {
+        @include styleButtonHover(
+          $color-grey-1,
+          $color-black-0,
+          $color-black-0
+        );
+      }
+    }
+    .myBtnSignUp {
+      @include styleButton(
+        $color-red-0,
+        $color-red-0,
+        $pd-1,
+        $pd-2,
+        $color-white-0
+      );
+      &:hover {
+        @include styleButtonHover($color-red-1, $color-white-0, $color-red-1);
+      }
+    }
+  }
+  .myDropDown {
+    color: #007bff;
+  }
+}
+.cartItem {
+  &:hover {
+    background-color: #f2f3f5;
+  }
+}
+.linkItem {
+  &:hover {
+    text-decoration: none;
+  }
 }

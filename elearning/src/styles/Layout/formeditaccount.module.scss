@@ -1,0 +1,27 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+.edtForm
+{
+    .inputText{
+        color: white;
+        background-color: #ff8c00;
+    }
+    .btnEdit
+    {
+        @include styleButton(white, #007bff, $pd-1, $pd-1, #007bff);
+        
+        &:hover{
+            @include styleButtonHover(#007bff, white,#007bff);
+        }
+    }
+    .btnCancle
+    {
+        margin-left: $mg-1;
+        
+        @include styleButton(white, #ea5252, $pd-1, $pd-1, #ea5252);
+        
+        &:hover{
+            @include styleButtonHover(#ea5252, white,#ea5252);
+        }
+    }
+}

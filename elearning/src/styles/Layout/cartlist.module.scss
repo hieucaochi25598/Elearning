@@ -1,0 +1,66 @@
+@import "../Helper/variable.scss";
+@import "../Helper/mixin.scss";
+.shoppingCart{
+    .shoppingCartContainer{
+        background-color: #505763;
+        color: white;
+        .shoppingCartContent{
+            width: 75%;
+            margin: 0 auto;
+            padding: $pd-2 * 2 + 10 0;
+        }
+    }
+    .cartList{
+        width: 75%;
+        margin: 0 auto;
+        margin-top: $mg-2 * 4;
+        .deleteCart{
+            color: #007791;
+            cursor: pointer;
+            &:hover{
+                color: black;
+            }
+        }
+        .toTalPrice{
+            .btnCheckOut{
+                width: 100%;
+                border-radius: unset;
+                box-shadow: unset;
+                outline: none;
+                padding: $pd-1 + 5;
+            }
+        }
+        .formGroupCoupon{
+            display: flex;
+            .inputCoupon{
+                width: 70%;
+                border-radius: unset;
+            }
+            .btnApply{
+                width: 30%;
+                border-radius: unset;
+                font-size: 14px;
+            }
+        }
+        .cartEmpty{
+            .cartEmptyContent{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 0 2px #dedfe0;
+                padding: $pd-1 * 5 0;
+                .cartEmptyIcon{
+                    font-size: 150px;
+                    color: #e8e9eb;
+                }
+                .cartEmptyBtn{
+                    @include styleButton(#ec5252, #ec5252, 10px, 10px, white);
+                    border-radius: unset;
+                    &:hover{
+                        @include styleButtonHover(#992337, white, #992337);
+                    }
+                }
+            }
+        }
+    }
+}
