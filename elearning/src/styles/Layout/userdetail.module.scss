@@ -90,15 +90,24 @@
           color: #1da1f2;
         }
       }
+      .addMoneyButton{
+        @extend .edtButton;
+        color: #ff8c00 !important;
+        border: 1px solid #ff8c00 !important;
+        &:hover{
+          @include styleButtonHover(#ff8c00 !important, white !important, #ff8c00 !important) ;
+        }
+      }
       .edtButton {
         background-color: white;
         color: #1976d2;
         outline: none;
-        margin: 10px 0;
+        margin: 10px 10px;
         border-radius: 40px;
         padding: 10px 20px;
         border: 1px solid #1976d2;
         transition: all 0.3s;
+      
         &:hover {
           @include styleButtonHover(#1976d2, white, #1976d2);
         }

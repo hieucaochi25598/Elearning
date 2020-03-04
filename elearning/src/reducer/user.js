@@ -11,7 +11,8 @@ import {
   DELETE_SIGNUP_COURSE,
   CLEAR_CART,
   GET_CART_ARRAY,
-  SIGNUP_COURSE
+  SIGNUP_COURSE,
+  ADD_MONEY
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -104,7 +105,11 @@ const userReducer = (state = initialState, action) => {
     }
     case CLEAR_CART: {
       localStorage.removeItem("cartArray");
-      return { ...state, cartArray: [] };
+      const userInfo = {...state.userInfo}
+      if(userInfo.soDu > state.totalPrice){
+        userInfo.soDu = userInfo.soDu - state.totalPrice
+      }
+      return { ...state, cartArray: [] , userInfo};
     }
     case GET_CART_ARRAY: {
       return { ...state, cartArray: action.data };
@@ -117,7 +122,15 @@ const userReducer = (state = initialState, action) => {
       }
       return { ...state };
     }
-
+    case ADD_MONEY: {
+      const userInfo = {...state.userInfo}
+      const confirmCode = "123456"
+      if(confirmCode === action.data.codeConfirm){
+        userInfo.soDu = userInfo.soDu + action.data.moneyMount;
+      }
+      
+      return {...state, userInfo}
+    }
     default:
       return state;
   }

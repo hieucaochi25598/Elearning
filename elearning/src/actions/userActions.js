@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 
 //API Dang KY
@@ -136,7 +136,6 @@ export const signUpCourse = (maKhoaHoc, handleSuccess) =>{
         }).then(result => {
             dispatch(signUpCourseAction(maKhoaHoc))
             handleSuccess()
-
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -146,12 +145,6 @@ export const signUpCourse = (maKhoaHoc, handleSuccess) =>{
             })
         }).catch(error => {
             console.log(error)
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'Thanh toán thất bại',
-                showConfirmButton: true,
-            })
         })
     }
 }
@@ -262,5 +255,11 @@ export const getCartArrayAction = (cartArray) => {
 export const calTotalPrice = () => {
     return {
         type: CAL_TOTAL_PRICE,
+    }
+}
+export const addMoneyAction = (values) => {
+    return {
+        type: ADD_MONEY,
+        data: values
     }
 }

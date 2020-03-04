@@ -2,6 +2,7 @@ import React from "react";
 import LazyLoad from "react-lazyload";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import {
   getAccountInfo,
   onToggleModal,
@@ -31,6 +32,7 @@ import {
 import { changeIcon } from "./CourseTitle";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import FormAddMoney from "./FormAddMoney";
 export const Loading = () => {
   return (
     <div className="text-center">
@@ -45,24 +47,23 @@ const UserDetail = props => {
     state => state.courseReducer
   );
   const [isFetchCourseList, setIsFetchCourseList] = useState(false)
+  const [isOpenAddMoney, setIsOpenAddMoney] = useState(false)
   const handleSuccess = () => {
     setIsFetchCourseList(true)
   }
   useEffect(() => {
-    dispatch(getAccountInfo());
     dispatch(getCourseTitle());
     dispatch(getCourseListAll(handleSuccess));
-    
   }, []);
-  
-    useEffect(() => {
-      dispatch(getAccountInfo());
-  }, [userInfo]);
+  const handleCloseAddMoney = () =>{
+    setIsOpenAddMoney(false)
+  }
   return (
     <div className={styles.userDetailContainer}>
       <div className="row p-4 ml-0 mr-0">
         <div className={`col-4 ${styles.userDetailDashboard} p-0`}>
           <div>
+            <FormAddMoney isOpenAddMoney={isOpenAddMoney} handleCloseAddMoney={handleCloseAddMoney}/>
             <FormEditAccount />
             {Object.keys(accountInfo).length === 0 ? (
               <div>Loading</div>
@@ -72,6 +73,7 @@ const UserDetail = props => {
                   <AccountCircleIcon className={styles.imgUserInfo} />
 
                   <h3>{accountInfo.hoTen}</h3>
+                  <p className="mb-0">Số dư: ${userInfo.soDu}</p>
                   <div className={styles.userInfoIcons}>
                     <FacebookIcon
                       fontSize="large"
@@ -97,6 +99,14 @@ const UserDetail = props => {
                     }}
                   >
                     <EditIcon className="mr-1" /> Chỉnh sửa
+                  </Button>
+                  <Button
+                    className={styles.addMoneyButton}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setIsOpenAddMoney(true)}
+                  >
+                    <LocalAtmIcon className="mr-1" /> Nạp tiền
                   </Button>
                 </div>
                 <div className={styles.userInfoPersonal}>
@@ -244,7 +254,7 @@ const UserDetail = props => {
                                     onClick={() =>
                                       Swal.fire({
                                         title:
-                                          "Bạn có chắc chắn muốn hủy đăng ký?",
+                                          "Hủy đăng ký sẽ mất đi 30% phí của khóa học. Bạn có chắc chắn muốn hủy đăng ký ? ",
                                         icon: "warning",
                                         showCancelButton: true,
                                         confirmButtonColor: "#3085d6",
