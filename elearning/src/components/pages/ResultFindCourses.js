@@ -8,6 +8,7 @@ import StarIcon from "@material-ui/icons/Star";
 import { Loading } from "./UserDetail";
 import YoutubeSearchedForIcon from '@material-ui/icons/YoutubeSearchedFor';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import {Spinner} from "reactstrap"
 import { useState } from "react";
 const ResultFindCourses = props => {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ const ResultFindCourses = props => {
                       <div
                         className={styles.listCoursesFoundContent}
                         key={item.maKhoaHoc}
+                        onClick={() => props.history.push(`/course-detail/${item.maKhoaHoc}`)}
                       >
                         <div className="row">
                           <div className="col-3">
@@ -127,7 +129,7 @@ const ResultFindCourses = props => {
                   <div><SentimentVeryDissatisfiedIcon fontSize="large"/></div>
                 )
               ) : (
-                <div>Loading.....</div>
+                <div className="text-center"><Spinner color="primary" style={{ width: '3rem', height: '3rem' }} className="mt-5"/></div>
               )}
             </div>
           </div>

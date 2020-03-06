@@ -24,6 +24,7 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import ChromeReaderModeIcon from "@material-ui/icons/ChromeReaderMode";
+import Skeleton from '@material-ui/lab/Skeleton';
 import {
   getCourseTitle,
   getCourseListAll,
@@ -66,7 +67,20 @@ const UserDetail = props => {
             <FormAddMoney isOpenAddMoney={isOpenAddMoney} handleCloseAddMoney={handleCloseAddMoney}/>
             <FormEditAccount />
             {Object.keys(accountInfo).length === 0 ? (
-              <div>Loading</div>
+              <div className="text-center p-5">
+                <Skeleton variant="circle" width={100} height={100} className="m-auto"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+                <Skeleton variant="text" className="mt-3"/>
+              </div>
             ) : (
               <React.Fragment>
                 <div className={styles.userInfo}>
@@ -283,7 +297,9 @@ const UserDetail = props => {
               </LazyLoad>
             ))
           ) : (
-            <div>Loading</div>
+            <div className="d-flex justify-content-center align-items-center p-5 m-5">
+              <Spinner color="primary" style={{ width: '3rem', height: '3rem' }}/>
+            </div>
           )}
         </div>
       </div>

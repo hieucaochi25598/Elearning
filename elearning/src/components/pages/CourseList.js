@@ -1,18 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  UncontrolledPopover,
-  PopoverHeader,
-  PopoverBody
-} from "reactstrap";
+import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
 import CourseTitle from "./CourseTitle";
 import { Formik } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Form } from "reactstrap";
+import Skeleton from '@material-ui/lab/Skeleton';
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { MyTextField } from "./Signup";
-import { FormGroup, InputAdornment } from "@material-ui/core";
+import { FormGroup, InputAdornment, CircularProgress } from "@material-ui/core";
 import { addToCartAction, calTotalPrice } from "../../actions/userActions";
 import style from "../../styles/Layout/courselist.module.scss";
 import SearchIcon from "@material-ui/icons/Search";
@@ -46,7 +43,22 @@ const CourseList = props => {
   // useEffect(() => {
   //     dispatch(getAccountInfo());
   // }, [userInfo]);
-
+  const loadingCourseList = () => {
+    let content = [];
+    for (let i = 0; i < 5; i++) {
+      content.push(
+        <div className="card" key={i}>
+          <Skeleton variant="rect" width="100%" height={118} />
+          <div className="card-body">
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          </div>
+        </div>
+      );
+    }
+    return content
+  };
   const [open, setOpen] = useState(false); //Snackbar
 
   const handleOpenSnack = () => {
@@ -74,14 +86,13 @@ const CourseList = props => {
       dispatch(calTotalPrice());
     }
   };
-  const handleFindCourses = (values) => {
-    if(Object.values(values)[0] !== ""){
-      props.history.push(`/result-courses/${values.tenKhoaHoc}`)
-    }
-    else{
+  const handleFindCourses = values => {
+    if (Object.values(values)[0] !== "") {
+      props.history.push(`/result-courses/${values.tenKhoaHoc}`);
+    } else {
       return;
     }
-  }
+  };
   return (
     <div className={style.courseList}>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -128,7 +139,6 @@ const CourseList = props => {
                                 onClick={handleSubmit}
                               >
                                 <SearchIcon
-                                  
                                   fontSize="large"
                                   style={{ cursor: "pointer" }}
                                 />
@@ -154,7 +164,11 @@ const CourseList = props => {
           <div className={style.courseListItem}>
             {isFetch && listCourses.length !== 0 ? (
               listCourses.map((item, index) => (
-                <div className={style.courseListItemCard} key={index} id={"Popover-" + index}>
+                <div
+                  className={style.courseListItemCard}
+                  key={index}
+                  id={"Popover-" + index}
+                >
                   <UncontrolledPopover
                     trigger="legacy"
                     placement="right"
@@ -227,13 +241,19 @@ const CourseList = props => {
                         <StarIcon className={style.courseStar} />
                         <span className="ml-2">5.0</span>
                       </div>
-                      {item.luotXem === 0 ? (<h5 className="text-right">Free</h5>) : (<h5 className="text-right">${item.luotXem}</h5>)}
+                      {item.luotXem === 0 ? (
+                        <h5 className="text-right">Free</h5>
+                      ) : (
+                        <h5 className="text-right">${item.luotXem}</h5>
+                      )}
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div>Loading</div>
+              <>
+                {loadingCourseList()}
+              </>
             )}
           </div>
           <div className="row justify-content-center mt-4">

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "../../styles/Layout/cartlist.module.scss";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PaymentIcon from '@material-ui/icons/Payment';
@@ -95,7 +95,7 @@ const CartList = (props) => {
             <div className={`${styles.cartEmptyContent} text-center`}>
               <div>
               <p><ShoppingCartIcon className={styles.cartEmptyIcon}/></p>
-              <p>Giỏ hàng đang trống. Hãy tìm ngay khóa học dành cho bạn!</p>
+              <p>Giỏ hàng đang trống. Hãy mua ngay khóa học dành cho bạn!</p>
               <Button color="danger" className={styles.cartEmptyBtn} onClick={() => props.history.push("/course-list")}>Mua ngay</Button>
               </div>
             </div>

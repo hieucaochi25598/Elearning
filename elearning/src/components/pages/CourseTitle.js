@@ -10,7 +10,8 @@ import {
 import {
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Spinner
 } from "reactstrap";
 import styles from "../../styles/Layout/coursetitle.module.scss";
 import "aos/dist/aos.css";
@@ -59,6 +60,7 @@ const CourseTitle = () => {
               dispatch(getCourseList(currentPage, 10, () => {}));
             }}
           >
+            
             <StorageIcon fontSize="small" className="mr-2" />
             Tất cả
           </NavLink>
@@ -79,7 +81,38 @@ const CourseTitle = () => {
             </NavItem>
           ))
         ) : (
-          <div>Loading</div>
+          <>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          <NavItem className="pl-5 pr-5">
+            <NavLink>
+            <Spinner size="sm" color="secondary" />
+            </NavLink>
+          </NavItem>
+          </>
         )}
       </Nav>
     </div>
