@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
 import CourseTitle from "./CourseTitle";
 import { Formik } from "formik";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Form } from "reactstrap";
+
 import Skeleton from '@material-ui/lab/Skeleton';
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { MyTextField } from "./Signup";
-import { FormGroup, InputAdornment, CircularProgress } from "@material-ui/core";
-import { addToCartAction, calTotalPrice } from "../../actions/userActions";
+import { FormGroup, InputAdornment } from "@material-ui/core";
+import { addToWishList, addToCart } from "../../actions/userActions";
 import style from "../../styles/Layout/courselist.module.scss";
 import SearchIcon from "@material-ui/icons/Search";
 import StarIcon from "@material-ui/icons/Star";
@@ -71,6 +73,19 @@ const CourseList = props => {
 
     setOpen(false);
   };
+  const handleIsLoginWishList = item =>{
+    if (Object.keys(userInfo).length === 0) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Vui lòng đăng nhập",
+        showConfirmButton: true
+      });
+      props.history.push("/login");
+  }else{
+    dispatch(addToWishList(item))
+  }
+}
   const handleIsLogin = item => {
     if (Object.keys(userInfo).length === 0) {
       Swal.fire({
@@ -81,11 +96,10 @@ const CourseList = props => {
       });
       props.history.push("/login");
     } else {
-      dispatch(addToCartAction(item));
-      handleOpenSnack();
-      dispatch(calTotalPrice());
+      dispatch(addToCart(item, handleOpenSnack)); 
     }
   };
+ 
   const handleFindCourses = values => {
     if (Object.values(values)[0] !== "") {
       props.history.push(`/result-courses/${values.tenKhoaHoc}`);
@@ -98,11 +112,11 @@ const CourseList = props => {
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         {isSuccessAdd ? (
           <Alert onClose={handleClose} severity="success">
-            Thêm giỏ hàng thành công
+            Thêm giỏ hàng thành công !
           </Alert>
         ) : (
           <Alert onClose={handleClose} severity="error">
-            Khóa học đã có trong giỏ hàng hoặc đang chờ xét duyệt
+            Khóa học đã có trong giỏ hàng !
           </Alert>
         )}
       </Snackbar>
@@ -174,7 +188,11 @@ const CourseList = props => {
                     placement="right"
                     target={"Popover-" + index}
                   >
-                    <PopoverHeader>Khóa Học {item.tenKhoaHoc}</PopoverHeader>
+                    <PopoverHeader className="d-flex justify-content-between">
+                      <p className="mb-0">Khóa Học {item.tenKhoaHoc}</p>
+                      <p className="mb-0"><FavoriteIcon fontSize="small" className={style.wishLishIcon}
+                      onClick={() => handleIsLoginWishList(item)}/></p>
+                      </PopoverHeader>
                     <PopoverBody>
                       <h6>
                         <DescriptionIcon /> Mô tả
@@ -213,6 +231,8 @@ const CourseList = props => {
                         >
                           <AddShoppingCartIcon className="mr-1" /> Thêm giỏ hàng
                         </Button>
+                        {/* <Button variant="contained"
+                          color="secondary" onClick={() => dispatch(addToWishList(item))}>WishList</Button> */}
                       </div>
                     </PopoverBody>
                   </UncontrolledPopover>
@@ -221,7 +241,7 @@ const CourseList = props => {
                       <img
                         className="card-img-top"
                         src={item.hinhAnh}
-                        alt="image"
+                        alt="images"
                         width="100%"
                         height={135}
                       />

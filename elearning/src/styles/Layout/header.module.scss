@@ -40,6 +40,28 @@
     font-size: 25px;
     color: $color-blue;
   }
+  .myWishList {
+    cursor: pointer;
+    background: white;
+    position: relative;
+    border-radius: 50%;
+    &:hover {
+      background: #f1f1f1;
+    }
+    .wishNotice{
+      position: absolute;
+      top: 23px;
+      right: 5px;
+      background: #ec5252;
+      height: 13px;
+      width: 13px;
+      line-height: 13px;
+      font-size: 10px;
+      text-align: center;
+      border-radius: 50%;
+      color: white;
+    }
+  }
   .myNavItem {
     margin: 0 $mg-1;
     .myNavLink {
@@ -56,6 +78,7 @@
         color: white;
       }
     }
+    
     .myCart {
       cursor: pointer;
       background: white;
@@ -78,6 +101,7 @@
         color: white;
       }
     }
+    
     .myBtnLogin {
       @include styleButton(
         $color-white-0,

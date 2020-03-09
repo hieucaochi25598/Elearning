@@ -1,15 +1,18 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST } from '../contants/userConstants'
 import Swal from 'sweetalert2'
+import { firebaseApp } from '../firebaseConfig'
 
 //API Dang KY
 export const signUpAction = (values, handleSuccess) => {
     return dispatch => {
+       
         axios.request({
             method: 'POST',
             url: 'QuanLyNguoiDung/DangKy',
             data: { ...values, maNhom: 'GP01' }
         }).then(result => {
+            
             handleSuccess()
             Swal.fire({
                 position: 'center',
@@ -42,11 +45,9 @@ export const logInAction = (values, handleSuccess) => {
             localStorage.setItem("userInfo", JSON.stringify(result.data))
             dispatch(getUserInfo(result.data))
             dispatch(getAccountInfo())
-            const cartArray = JSON.parse(localStorage.getItem('cartArray'))
-            if(cartArray){
-                dispatch(getCartArrayAction(cartArray))
-                dispatch(calTotalPrice())
-            }
+            dispatch(getWishList())
+            dispatch(getCartArray())
+            
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -136,13 +137,6 @@ export const signUpCourse = (maKhoaHoc, handleSuccess) =>{
         }).then(result => {
             dispatch(signUpCourseAction(maKhoaHoc))
             handleSuccess()
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Thanh toán thành công. Vui lòng chờ xét duyệt!',
-                showConfirmButton: false,
-                timer: 2500
-            })
         }).catch(error => {
             console.log(error)
         })
@@ -160,6 +154,14 @@ export const clearCartAction = () => {
         type: CLEAR_CART
     }
 
+}
+export const clearCart = () => {
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`cartArray/`).child(userInfo.taiKhoan).remove().then(() => {
+            dispatch(clearCartAction())
+        })
+    }
 }
 //Huy dang ky 
 export const deleteSignUpCourse = (maKhoaHoc) => {
@@ -234,6 +236,37 @@ export const getMyCoursesListWaitingAction = (coursesList) => {
     }
 }
 
+export const addToCart = (course, handleComplete) => {
+    return (dispatch,getState) => {
+        const {userInfo} = getState().userReducer
+        const {accountInfo}= getState().userReducer
+        const index = accountInfo.chiTietKhoaHocGhiDanh.findIndex(item => item.maKhoaHoc === course.maKhoaHoc)
+        if(index === -1) {
+            firebaseApp.database().ref(`cartArray/${userInfo.taiKhoan}/${course.maKhoaHoc}`).set({
+                tenKhoaHoc: course.tenKhoaHoc,
+                biDanh: course.biDanh,
+                hinhAnh: course.hinhAnh,
+                moTa: course.moTa,
+                luotXem: course.luotXem,
+                maNhom: course.maNhom,
+                ngayTao: course.ngayTao,
+                nguoiTao: {taiKhoan: course.nguoiTao.taiKhoan, hoTen: course.nguoiTao.hoTen ,maLoaiNguoiDung: course.nguoiTao.maLoaiNguoiDung, tenLoaiNguoiDung: course.nguoiTao.tenLoaiNguoiDung},
+                danhMucKhoaHoc: {maDanhMucKhoahoc: course.danhMucKhoaHoc.maDanhMucKhoahoc, tenDanhMucKhoaHoc: course.danhMucKhoaHoc.tenDanhMucKhoaHoc}
+            }).then(() => {
+                dispatch(addToCartAction(course))
+                handleComplete()
+            })
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Khóa học này đã được đăng ký',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    }
+}
 export const addToCartAction = (course) => {
     return {
         type: ADD_TO_CART,
@@ -241,9 +274,50 @@ export const addToCartAction = (course) => {
     }
 }
 export const deleteCart = (maKhoaHoc) => {
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`cartArray/${userInfo.taiKhoan}`).child(maKhoaHoc).remove().then(() => {
+            dispatch(deleteCartAction(maKhoaHoc))
+        })
+    }
+}
+export const deleteCartAction = (maKhoaHoc) => {
     return {
         type: DELETE_CART,
         data: maKhoaHoc
+    }
+}
+export const getCartArray = () => {
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`cartArray/${userInfo.taiKhoan}/`).once("value").then((snapshot) =>{
+            let cartArray = []
+            snapshot.forEach(element => {
+                const maKhoaHoc = element.key
+                const tenKhoaHoc = element.val().tenKhoaHoc
+                const biDanh = element.val().biDanh
+                const hinhAnh = element.val().hinhAnh
+                const moTa = element.val().moTa
+                const luotXem = element.val().luotXem
+                const maNhom = element.val().maNhom
+                const ngayTao = element.val().ngayTao
+                const nguoiTao = {taiKhoan: element.val().nguoiTao.taiKhoan, hoTen: element.val().nguoiTao.hoTen ,maLoaiNguoiDung: element.val().nguoiTao.maLoaiNguoiDung, tenLoaiNguoiDung: element.val().nguoiTao.tenLoaiNguoiDung}
+                const danhMucKhoaHoc = {maDanhMucKhoahoc: element.val().danhMucKhoaHoc.maDanhMucKhoahoc, tenDanhMucKhoaHoc: element.val().danhMucKhoaHoc.tenDanhMucKhoaHoc}
+                cartArray.push({
+                    maKhoaHoc,
+                    tenKhoaHoc,
+                    biDanh,
+                    hinhAnh,
+                    moTa,
+                    luotXem,
+                    maNhom,
+                    ngayTao,
+                    nguoiTao,
+                    danhMucKhoaHoc
+                })
+            })
+            dispatch(getCartArrayAction(cartArray))
+        })
     }
 }
 export const getCartArrayAction = (cartArray) => {
@@ -261,5 +335,122 @@ export const addMoneyAction = (values) => {
     return {
         type: ADD_MONEY,
         data: values
+    }
+}
+export const commentCourse = (values) => {
+    return (dispatch,getState) => {
+        const {courseDetail} = getState().courseReducer
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`${courseDetail.maKhoaHoc}/${userInfo.taiKhoan}/`).set({
+            comment: values.comment
+        }).then(() => {
+            dispatch(commentCourseAction(values))
+        })
+    }
+}
+export const commentCourseAction = (comment) => {
+    return {
+        type: COMMENT_COURSE,
+        data: comment 
+    }
+}
+export const getCommentCourse = (maKhoaHoc) => {
+    return (dispatch, getState) => {
+        firebaseApp.database().ref(`${maKhoaHoc}/`).once("value").then((snapshot) => {
+            let commentArray = []
+            snapshot.forEach(element => {
+                const taiKhoan = element.key
+                const comment = element.val().comment
+                commentArray.push({
+                    taiKhoan,
+                    comment
+                })
+            })
+            dispatch(getCommentCourseAction(commentArray))
+        })
+    }
+}
+export const getCommentCourseAction = (comments) => {
+    return {
+        type: GET_COMMENT_COURSE,
+        data: comments
+    }
+}
+export const addToWishList = (course) => {
+    return (dispatch,getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`wishListArray/${userInfo.taiKhoan}/${course.maKhoaHoc}`).set({
+            tenKhoaHoc: course.tenKhoaHoc,
+            biDanh: course.biDanh,
+            hinhAnh: course.hinhAnh,
+            moTa: course.moTa,
+            luotXem: course.luotXem,
+            maNhom: course.maNhom,
+            ngayTao: course.ngayTao,
+            nguoiTao: {taiKhoan: course.nguoiTao.taiKhoan, hoTen: course.nguoiTao.hoTen ,maLoaiNguoiDung: course.nguoiTao.maLoaiNguoiDung, tenLoaiNguoiDung: course.nguoiTao.tenLoaiNguoiDung},
+            danhMucKhoaHoc: {maDanhMucKhoahoc: course.danhMucKhoaHoc.maDanhMucKhoahoc, tenDanhMucKhoaHoc: course.danhMucKhoaHoc.tenDanhMucKhoaHoc}
+        }).then(() => {
+            dispatch(addToWishListAction(course))
+        })
+    }
+    
+}
+export const addToWishListAction = (course) => {
+    return {
+        type: ADD_TO_WISHLIST,
+        data: course
+    }
+}
+export const getWishList = () =>{
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`wishListArray/${userInfo.taiKhoan}/`).once("value").then((snapshot) =>{
+            let wishListArray = []
+            snapshot.forEach(element => {
+                const maKhoaHoc = element.key
+                const tenKhoaHoc = element.val().tenKhoaHoc
+                const biDanh = element.val().biDanh
+                const hinhAnh = element.val().hinhAnh
+                const moTa = element.val().moTa
+                const luotXem = element.val().luotXem
+                const maNhom = element.val().maNhom
+                const ngayTao = element.val().ngayTao
+                const nguoiTao = {taiKhoan: element.val().nguoiTao.taiKhoan, hoTen: element.val().nguoiTao.hoTen ,maLoaiNguoiDung: element.val().nguoiTao.maLoaiNguoiDung, tenLoaiNguoiDung: element.val().nguoiTao.tenLoaiNguoiDung}
+                const danhMucKhoaHoc = {maDanhMucKhoahoc: element.val().danhMucKhoaHoc.maDanhMucKhoahoc, tenDanhMucKhoaHoc: element.val().danhMucKhoaHoc.tenDanhMucKhoaHoc}
+                wishListArray.push({
+                    maKhoaHoc,
+                    tenKhoaHoc,
+                    biDanh,
+                    hinhAnh,
+                    moTa,
+                    luotXem,
+                    maNhom,
+                    ngayTao,
+                    nguoiTao,
+                    danhMucKhoaHoc
+                })
+            })
+            dispatch(getWishListAction(wishListArray))
+        })
+    }
+}
+export const getWishListAction = (wishList) => {
+    return {
+        type: GET_WISHLIST_ARRAY,
+        data: wishList
+    }
+}
+export const deleteWishList = (maKhoaHoc) => {
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        firebaseApp.database().ref(`wishListArray/${userInfo.taiKhoan}`).child(maKhoaHoc).remove().then(() => {
+            dispatch(deleteWishListAction(maKhoaHoc))
+        })
+    }
+}
+export const deleteWishListAction = (maKhoaHoc) => {
+    return {
+        type: DELETE_WISHLIST,
+        data: maKhoaHoc
     }
 }

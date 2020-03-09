@@ -12,7 +12,12 @@ import {
   CLEAR_CART,
   GET_CART_ARRAY,
   SIGNUP_COURSE,
-  ADD_MONEY
+  ADD_MONEY,
+  GET_COMMENT_COURSE,
+  COMMENT_COURSE,
+  GET_WISHLIST_ARRAY,
+  ADD_TO_WISHLIST,
+  DELETE_WISHLIST
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -23,6 +28,8 @@ const initialState = {
   myCoursesList: [],
   myCousesListWaiting: [],
   cartArray: [],
+  wishListArray: [],
+  commentArray: [],
   isSuccessAdd: false,
   totalPrice: 0
 };
@@ -76,22 +83,16 @@ const userReducer = (state = initialState, action) => {
     }
     case ADD_TO_CART: {
       const cartArray = [...state.cartArray];
-      const chiTietKhoaHocGhiDanh = [
-        ...state.accountInfo.chiTietKhoaHocGhiDanh
-      ];
-      const indexChiTiet = chiTietKhoaHocGhiDanh.findIndex(
-        item => item.maKhoaHoc === action.data.maKhoaHoc
-      );
       const index = cartArray.findIndex(
         item => item.maKhoaHoc === action.data.maKhoaHoc
       );
-      if (index === -1 && indexChiTiet === -1) {
+      if (index === -1) {
         cartArray.push(action.data);
         state.isSuccessAdd = true;
       } else {
         state.isSuccessAdd = false;
       }
-      localStorage.setItem("cartArray", JSON.stringify(cartArray));
+      
       return { ...state, cartArray };
     }
     case DELETE_CART: {
@@ -100,11 +101,11 @@ const userReducer = (state = initialState, action) => {
       if (index !== -1) {
         cartArray.splice(index, 1);
       }
-      localStorage.setItem("cartArray", JSON.stringify(cartArray));
+      
       return { ...state, cartArray };
     }
     case CLEAR_CART: {
-      localStorage.removeItem("cartArray");
+     
       const userInfo = {...state.userInfo}
       if(userInfo.soDu > state.totalPrice){
         userInfo.soDu = userInfo.soDu - state.totalPrice
@@ -130,6 +131,46 @@ const userReducer = (state = initialState, action) => {
       }
       
       return {...state, userInfo}
+    }
+    case COMMENT_COURSE: {
+      const commentArray = [...state.commentArray]
+      const userInfo = {...state.userInfo}
+      const index = commentArray.findIndex(item => item.taiKhoan === userInfo.taiKhoan)
+      if(index === -1){
+        commentArray.push({
+          ...action.data,
+          taiKhoan: userInfo.taiKhoan
+        })
+      }else{
+        commentArray[index].comment = action.data.comment
+      }
+      return {...state, commentArray}
+    }
+    case GET_COMMENT_COURSE:
+      {
+        return {...state, commentArray:action.data}
+      }
+    case ADD_TO_WISHLIST:
+      {
+        const wishListArray = [...state.wishListArray]
+        const index = wishListArray.findIndex(item => item.maKhoaHoc === action.data.maKhoaHoc)
+        if(index === -1){
+          wishListArray.push(action.data)
+        }
+        return {...state, wishListArray}
+      }
+    case GET_WISHLIST_ARRAY:
+      {
+      return {...state, wishListArray: action.data}
+    }
+    case DELETE_WISHLIST: 
+    {
+      const wishListArray = [...state.wishListArray]
+      const index = wishListArray.findIndex(item => item.maKhoaHoc === action.data)
+      if(index !== -1){
+        wishListArray.splice(index , 1)
+      }
+      return {...state, wishListArray}
     }
     default:
       return state;

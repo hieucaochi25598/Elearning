@@ -1,6 +1,8 @@
 import axios from '../util/axios'
 import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
+import { firebaseApp } from '../firebaseConfig'
+
 export const getCourseList = (currentPage, pageSize,handleSuccess) =>{
     return dispatch => {
         axios.request({

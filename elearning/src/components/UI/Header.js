@@ -1,4 +1,5 @@
 import React from "react";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import {
   Collapse,
   Navbar,
@@ -14,12 +15,12 @@ import {
   DropdownItem
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
 import { useState } from "react";
 import styles from "../../styles/Layout/header.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
+
 import ComputerIcon from "@material-ui/icons/Computer";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -30,15 +31,15 @@ import { UncontrolledPopover, PopoverBody } from "reactstrap";
 import HomeIcon from "@material-ui/icons/Home";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { deleteCart, calTotalPrice } from "../../actions/userActions";
+import { deleteCart, calTotalPrice, getWishList } from "../../actions/userActions";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-  const { userInfo, cartArray, totalPrice } = useSelector(
+  const { userInfo, cartArray, totalPrice, wishListArray} = useSelector(
     state => state.userReducer
   );
   const handleLogout = () => {
@@ -46,6 +47,8 @@ const Header = () => {
     window.location.reload();
   };
 
+    
+  
   return (
     <div>
       <Navbar className={styles.myNavbar} light expand="md">
@@ -139,6 +142,78 @@ const Header = () => {
                 to="/course-list"
               >
                 <ListAltIcon fontSize="large" /> DANH SÁCH KHÓA HỌC
+              </NavLink>
+            </NavItem>
+            <NavItem id="PopoverWishList">
+              <NavLink className={styles.myWishList}>
+                <FavoriteBorderIcon fontSize="small"/>
+          {wishListArray.length !== 0 && <div className={styles.wishNotice}>{wishListArray.length}</div>}
+          <UncontrolledPopover
+          trigger="legacy"
+          placement="bottom"
+          target="PopoverWishList"
+        >
+          {/* <PopoverHeader className={styles.cartInfo}>
+          <AddShoppingCartIcon className="mr-1" /> Thông tin giỏ hàng
+        </PopoverHeader> */}
+          {wishListArray.length !== 0 ? (
+            <PopoverBody className="p-0" style={{ overflow: "hidden" }}>
+              {wishListArray.map((item, index) => (
+                
+                <div
+                  className={`row mb-2 align-items-center pr-4 pl-4 pt-2 pb-2 ${styles.cartItem}`}
+                  key={index}
+                  style={{ cursor: "pointer" }}
+                  
+                >
+                  <div className="col-3 pr-0">
+                    <div>
+                      <img
+                        src={item.hinhAnh}
+                        alt="images"
+                        width="100%"
+                        height={53}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-9">
+                    <div>
+                      <h6 className="mb-0">{item.tenKhoaHoc}</h6>
+                      <p className="mb-0">
+                        {item.nguoiTao && item.nguoiTao.hoTen}
+                      </p>
+                    </div>
+                  </div>
+                  {/* <div className="col-3 pl-0">
+                  <Button
+                    color="danger"
+                    onClick={() => {dispatch(deleteCart(item.maKhoaHoc)); dispatch(calTotalPrice())}}
+                  >
+                    <DeleteForeverIcon fontSize="large" />
+                  </Button>
+                </div> */}
+                </div>
+            
+              ))}
+              <div className={styles.totalPriceCart}>
+                <Button
+                  color="danger"
+                  className={styles.cartButton}
+                  tag={Link}
+                  to="/wish-list"
+                >
+                  Khóa học yêu thích
+                </Button>
+              </div>
+            </PopoverBody>
+          ) : (
+            <PopoverBody>
+              <h5 className="text-center">
+                Hãy thêm các khóa học vào danh sách yêu thích
+              </h5>
+            </PopoverBody>
+          )}
+        </UncontrolledPopover>
               </NavLink>
             </NavItem>
             <NavItem className={styles.myNavItem} id="PopoverCart">

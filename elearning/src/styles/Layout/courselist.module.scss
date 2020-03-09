@@ -81,3 +81,13 @@
 .myDetailButton {
   background: #28a745 !important;
 }
+.wishLishIcon{
+  color: #dfdfdf;
+  cursor: pointer;
+  transition: all 0.5s;
+  &:hover{
+    color: #ec5252;
+    
+    margin-bottom: 0;
+  }
+}

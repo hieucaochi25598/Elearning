@@ -6,7 +6,7 @@ import Signup from './components/pages/Signup';
 import UserLayout from './components/layout/UserLayout';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getAccountInfo, addToCartAction, getCartArrayAction, calTotalPrice } from './actions/userActions';
+import { getUserInfo, getAccountInfo, addToCartAction, getCartArrayAction, calTotalPrice, getWishList, getCartArray } from './actions/userActions';
 import CourseList from './components/pages/CourseList';
 import CourseDetail from './components/pages/CourseDetail';
 import UserAuth from './Auth/UserAuth';
@@ -23,26 +23,31 @@ import ListUserWaitCourse from './components/pages/ListUserWaitCourse';
 import ListCourseNotEnroll from './components/pages/ListCourseNotEnroll';
 import ListCourseEnrolled from './components/pages/ListCourseEnrolled';
 import ListCourseWaitEnrolled from './components/pages/ListCourseWaitEnrolled';
-
+import './firebaseConfig'
 import './styles/Base/reset.scss'
 import ResultFindCourses from './components/pages/ResultFindCourses';
 import CartList from './components/pages/CartList';
+import WishList from './components/pages/WishList';
 
 function App() {
   const dispatch = useDispatch()
+  const {cartArray} = useSelector(state => state.userReducer)
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    const cartArray = JSON.parse(localStorage.getItem('cartArray'))
+    
     if (userInfo) {
+      
       setAuthorization(userInfo.accessToken)
       dispatch(getUserInfo(userInfo))
       dispatch(getAccountInfo())
-      if(cartArray){
-        dispatch(getCartArrayAction(cartArray))
-        dispatch(calTotalPrice())
-      }
+      dispatch(getWishList())
+      dispatch(getCartArray())
+      
     }
   }, [])
+  useEffect(() => {
+    dispatch(calTotalPrice())
+  }, [cartArray])
   return (
     <div className="App">
       <Switch>
@@ -74,6 +79,7 @@ function App() {
             <UserAuth path="/course-detail/:maKhoaHoc" component={CourseDetail} />
             <UserAuth path="/account-info/:taiKhoan" component={UserDetail}/>
             <UserAuth path="/cart-list" component={CartList}/>
+            <UserAuth path="/wish-list" component={WishList}/>
           </Switch>
         </UserLayout>
       </Switch>
