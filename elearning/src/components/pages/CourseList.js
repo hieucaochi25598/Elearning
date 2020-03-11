@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
 import CourseTitle from "./CourseTitle";
 import { Formik } from "formik";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Form } from "reactstrap";
-
-import Skeleton from '@material-ui/lab/Skeleton';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Skeleton from "@material-ui/lab/Skeleton";
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { MyTextField } from "./Signup";
 import { FormGroup, InputAdornment } from "@material-ui/core";
-import { addToWishList, addToCart } from "../../actions/userActions";
+import { addToWishList, addToCart, deleteWishList } from "../../actions/userActions";
 import style from "../../styles/Layout/courselist.module.scss";
 import SearchIcon from "@material-ui/icons/Search";
 import StarIcon from "@material-ui/icons/Star";
@@ -26,6 +27,22 @@ import Swal from "sweetalert2";
 import useFetchCoursesList from "../../customHook/useFetchCourseList";
 import PaginationComponent from "../layout/Pagination";
 
+export const loadingCourseList = () => {
+  let content = [];
+  for (let i = 0; i < 10; i++) {
+    content.push(
+      <div className="card" key={i}>
+        <Skeleton variant="rect" width="100%" height={118} />
+        <div className="card-body">
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </div>
+      </div>
+    );
+  }
+  return content;
+};
 const Alert = props => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
@@ -39,28 +56,60 @@ const CourseList = props => {
     isFetch
   } = useFetchCoursesList();
 
-  const { isSuccessAdd, userInfo } = useSelector(state => state.userReducer);
+  const { userInfo, cartArray, wishListArray } = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
-
+  const renderCheckIsInWishList = course => {
+    const index = wishListArray.findIndex(item => item.maKhoaHoc === course.maKhoaHoc)
+    if(index !== -1){
+      return <FavoriteIcon
+      fontSize="small"
+      className={style.wishListIcon}
+      onClick={() => dispatch(deleteWishList(course.maKhoaHoc))}
+    />
+    }else{
+      return <FavoriteBorderIcon fontSize="small"
+      className={style.notWishListIcon}
+      onClick={() => handleIsLoginWishList(course)}
+      />
+    }
+  }
+  const renderCheckIsInCart = course => {
+    const index = cartArray.findIndex(
+      item => item.maKhoaHoc === course.maKhoaHoc
+    );
+    if (index !== -1) {
+      return (
+        <Button
+          color="primary"
+          variant="contained"
+          color="primary"
+          className={style.myGoToCartButton}
+          onClick={() => props.history.push("/cart-list")}
+        >
+          {" "}
+          <ShoppingCartIcon className="mr-1" />
+          Đến giỏ hàng
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          className={style.myCartButton}
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            handleIsLogin(course);
+          }}
+        >
+          <AddShoppingCartIcon className="mr-1" /> Thêm giỏ hàng
+        </Button>
+      );
+    }
+  };
   // useEffect(() => {
   //     dispatch(getAccountInfo());
   // }, [userInfo]);
-  const loadingCourseList = () => {
-    let content = [];
-    for (let i = 0; i < 5; i++) {
-      content.push(
-        <div className="card" key={i}>
-          <Skeleton variant="rect" width="100%" height={118} />
-          <div className="card-body">
-          <Skeleton variant="text" />
-          <Skeleton variant="text" />
-          <Skeleton variant="text" />
-          </div>
-        </div>
-      );
-    }
-    return content
-  };
+
   const [open, setOpen] = useState(false); //Snackbar
 
   const handleOpenSnack = () => {
@@ -68,12 +117,12 @@ const CourseList = props => {
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
-      return;
+      return ;
     }
 
     setOpen(false);
   };
-  const handleIsLoginWishList = item =>{
+  const handleIsLoginWishList = item => {
     if (Object.keys(userInfo).length === 0) {
       Swal.fire({
         position: "center",
@@ -82,10 +131,10 @@ const CourseList = props => {
         showConfirmButton: true
       });
       props.history.push("/login");
-  }else{
-    dispatch(addToWishList(item))
-  }
-}
+    } else {
+      dispatch(addToWishList(item));
+    }
+  };
   const handleIsLogin = item => {
     if (Object.keys(userInfo).length === 0) {
       Swal.fire({
@@ -96,10 +145,10 @@ const CourseList = props => {
       });
       props.history.push("/login");
     } else {
-      dispatch(addToCart(item, handleOpenSnack)); 
+      dispatch(addToCart(item, handleOpenSnack));
     }
   };
- 
+
   const handleFindCourses = values => {
     if (Object.values(values)[0] !== "") {
       props.history.push(`/result-courses/${values.tenKhoaHoc}`);
@@ -110,15 +159,9 @@ const CourseList = props => {
   return (
     <div className={style.courseList}>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        {isSuccessAdd ? (
-          <Alert onClose={handleClose} severity="success">
-            Thêm giỏ hàng thành công !
-          </Alert>
-        ) : (
-          <Alert onClose={handleClose} severity="error">
-            Khóa học đã có trong giỏ hàng !
-          </Alert>
-        )}
+        <Alert onClose={handleClose} severity="success">
+          Thêm giỏ hàng thành công !
+        </Alert>
       </Snackbar>
       <div>
         <div className={style.imgCourseList}>
@@ -190,9 +233,10 @@ const CourseList = props => {
                   >
                     <PopoverHeader className="d-flex justify-content-between">
                       <p className="mb-0">Khóa Học {item.tenKhoaHoc}</p>
-                      <p className="mb-0"><FavoriteIcon fontSize="small" className={style.wishLishIcon}
-                      onClick={() => handleIsLoginWishList(item)}/></p>
-                      </PopoverHeader>
+                      <p className="mb-0">
+                        {renderCheckIsInWishList(item)}
+                      </p>
+                    </PopoverHeader>
                     <PopoverBody>
                       <h6>
                         <DescriptionIcon /> Mô tả
@@ -221,7 +265,8 @@ const CourseList = props => {
                         >
                           <DescriptionIcon className="mr-1" /> Xem chi tiết
                         </Button>
-                        <Button
+                        {renderCheckIsInCart(item)}
+                        {/* <Button
                           className={style.myCartButton}
                           variant="contained"
                           color="secondary"
@@ -230,7 +275,7 @@ const CourseList = props => {
                           }}
                         >
                           <AddShoppingCartIcon className="mr-1" /> Thêm giỏ hàng
-                        </Button>
+                        </Button> */}
                         {/* <Button variant="contained"
                           color="secondary" onClick={() => dispatch(addToWishList(item))}>WishList</Button> */}
                       </div>
@@ -271,9 +316,7 @@ const CourseList = props => {
                 </div>
               ))
             ) : (
-              <>
-                {loadingCourseList()}
-              </>
+              <>{loadingCourseList()}</>
             )}
           </div>
           <div className="row justify-content-center mt-4">

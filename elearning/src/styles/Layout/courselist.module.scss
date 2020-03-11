@@ -71,23 +71,29 @@
   
 }
 .myDetailButton,
-.myCartButton {
+.myCartButton, .myGoToCartButton {
   width: 100%;
   margin-bottom: 10px !important;
 }
 .myCartButton {
   background: #ec5252 !important;
 }
+
 .myDetailButton {
   background: #28a745 !important;
 }
-.wishLishIcon{
-  color: #dfdfdf;
+.wishListIcon{
+  color: #ec5252;
+  cursor: pointer;
+  
+  margin-bottom: 0;
+
+}
+.notWishListIcon{
   cursor: pointer;
   transition: all 0.5s;
-  &:hover{
+  margin-bottom: 0;
+  &:hover {
     color: #ec5252;
-    
-    margin-bottom: 0;
   }
 }

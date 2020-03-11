@@ -1,0 +1,30 @@
+.slick-slider{
+    .slick-prev,.slick-next{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background: white !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.08);
+        z-index: 100;
+        position: absolute;
+    }
+    .slick-prev{
+        left: -17px;
+        top: 126px;
+    }
+    .slick-next{
+        right: -17px;
+        top: 126px;
+    }
+    .slick-prev:before{
+        font-family: "Font Awesome 5 Free";
+        color: #0f7c90 !important;
+        content: "\f104" !important;
+        font-weight: 900;
+    }
+    .slick-next:before{
+        @extend .slick-prev:before;
+        content: "\f105" !important;
+        font-weight: 900;
+    }
+}

@@ -6,56 +6,158 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PaymentIcon from "@material-ui/icons/Payment";
 import { Button } from "reactstrap";
+import "slick-carousel/slick/slick.css"; 
+import "../../styles/Component/customize.scss"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
 import {
   deleteCart,
   calTotalPrice,
   signUpCourse,
   clearCartAction,
-  clearCart
+  clearCart,
+  addToWishList
 } from "../../actions/userActions";
 import { useState } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+import StarIcon from "@material-ui/icons/Star";
 import { getCourseListAll } from "../../actions/courseAction";
-function Alert(props) {
+import Skeleton from "@material-ui/lab/Skeleton";
+const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 250,
+  autoplay: true,
+  cssEase: "linear",
+  autoplaySpeed: 5000,
+  slidesToShow: 5,
+  slidesToScroll: 1
+};
+const loadingCourseList = () => {
+  let content = []
+  for( let i = 0; i < 5; i++) {
+    content.push(
 
+        <div className="card" key={i}>
+        <Skeleton variant="rect" width="100%" height={118} />
+        <div className="card-body">
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </div>
+      </div>
+      
+    )
+  }
+  return content;
+}
 const CartList = props => {
-  const { cartArray, totalPrice, userInfo } = useSelector(
+  const { cartArray, totalPrice, userInfo, accountInfo } = useSelector(
     state => state.userReducer
   );
   const { listCourses } = useSelector(state => state.courseReducer);
   const [isOpenSnackBarError, setIsOpenSnackBarError] = useState(false);
-
+  const [isFetchCourseList, setIsFetchCourseList] = useState(false);
   const dispatch = useDispatch();
-  const renderCourseList = () => {
-    let content = [];
-    for (let i = 0; i < listCourses.length; i++) {
-      let isExist = false;
-      for (let j = 0; j < cartArray.length; j++) {
-        if (listCourses[i].maKhoaHoc === cartArray[j].maKhoaHoc) {
-          isExist = true;
-          break;
-        }
-      }
-      if (!isExist) {
-        content.push(
-          <div className="card" key={listCourses[i].maKhoaHoc}>
-            <img src={listCourses[i].hinhAnh} alt="images" />
-            <div className="card-body">
-              <h4 className="card-title">{listCourses[i].tenKhoaHoc}</h4>
-              <p className="card-text">
-                {listCourses[i].nguoiTao && listCourses[i].nguoiTao.hoTen}
-              </p>
-            </div>
+  const renderCourseList = course => {
+    const index = cartArray.findIndex(
+      item => item.maKhoaHoc === course.maKhoaHoc
+    );
+    const indexDetail = accountInfo.chiTietKhoaHocGhiDanh.findIndex(
+      itemDetail => itemDetail.maKhoaHoc === course.maKhoaHoc
+    );
+    if (index === -1 && indexDetail === -1) {
+      return (
+        <div className="p-2" key={course.maKhoaHoc}>
+        <div className={`card ${styles.cardCourses}`}>
+          <div className={styles.divImage}>
+            <img src={course.hinhAnh} alt="images" width="100%" height={120} />
+            <div className={styles.divInsideImage}></div>
+            <span className={styles.hotCourse}>BESTSELLER</span>
           </div>
-        );
-      }
+
+          <div className="card-body">
+            <h6 className="card-title">{course.tenKhoaHoc}</h6>
+            <p className={`card-text ${styles.inStrucTor} mb-1`}>
+              {course.nguoiTao && course.nguoiTao.hoTen}
+            </p>
+            <div>
+              <StarIcon className={styles.iconStar} />
+              <StarIcon className={styles.iconStar} />
+              <StarIcon className={styles.iconStar} />
+              <StarIcon className={styles.iconStar} />
+              <StarIcon className={styles.iconStar} />
+              <span className={styles.ratingStar}>5.0</span>
+            </div>
+            {course.luotXem === 0 ? (
+              <h5 className="text-right">Free</h5>
+            ) : (
+              <h5 className="text-right">${course.luotXem}</h5>
+            )}
+          </div>
+        </div>
+        </div>
+      );
+    } else {
+      return null;
     }
-    return content;
+
+    // let content = [];
+    // const {chiTietKhoaHocGhiDanh} = accountInfo
+    // for (let i = 0; i < listCourses.length; i++) {
+    //   let isExistCart = false;
+    //   let isExistDetailCourse = false;
+    //   for (let j = 0; j < cartArray.length; j++) {
+    //     if (listCourses[i].maKhoaHoc === cartArray[j].maKhoaHoc) {
+    //       isExistCart = true;
+    //       break;
+    //     }
+    //   }
+    //   for(let k = 0; k < chiTietKhoaHocGhiDanh.length; k++){
+    //     if(listCourses[i].maKhoaHoc === chiTietKhoaHocGhiDanh[k].maKhoaHoc){
+    //       isExistDetailCourse = true;
+    //       break;
+    //     }
+    //   }
+    //   if (!isExistCart && !isExistDetailCourse) {
+    //     content.push(
+    //       <div className={`card ${styles.cardCourses}`} key={listCourses[i].maKhoaHoc}>
+    //         <div className={styles.divImage}>
+    //           <img src={listCourses[i].hinhAnh} alt="images" width="100%" height={120}/>
+    //           <div className={styles.divInsideImage}>
+
+    //           </div>
+    //           <span className={styles.hotCourse}>
+    //             BESTSELLER
+    //           </span>
+    //         </div>
+
+    //         <div className="card-body">
+    //           <h6 className="card-title">{listCourses[i].tenKhoaHoc}</h6>
+    //           <p className={`card-text ${styles.inStrucTor} mb-1`}>
+    //             {listCourses[i].nguoiTao && listCourses[i].nguoiTao.hoTen}
+    //           </p>
+    //           <div>
+    //               <StarIcon className={styles.iconStar}/>
+    //               <StarIcon className={styles.iconStar}/>
+    //               <StarIcon className={styles.iconStar}/>
+    //               <StarIcon className={styles.iconStar}/>
+    //               <StarIcon className={styles.iconStar}/>
+    //               <span className={styles.ratingStar}>5.0</span>
+    //           </div>
+    //     {listCourses[i].luotXem === 0 ? (<h5 className="text-right">Free</h5>) : (<h5 className="text-right">${listCourses[i].luotXem}</h5>)}
+    //         </div>
+    //       </div>
+    //     );
+    //   }
+    // }
+    // return content;
   };
   const handleCheckOut = () => {
     if (userInfo.soDu > totalPrice) {
@@ -86,7 +188,11 @@ const CartList = props => {
     setIsOpenSnackBarError(false);
   };
   useEffect(() => {
-    dispatch(getCourseListAll(() => {}));
+    dispatch(
+      getCourseListAll(() => {
+        setIsFetchCourseList(true);
+      })
+    );
   }, []);
   return (
     <div className={styles.shoppingCart}>
@@ -109,16 +215,19 @@ const CartList = props => {
         </div>
       </div>
       <div className={styles.cartList}>
+      <h5>{cartArray.length} Khóa học trong giỏ hàng</h5>
+
         {cartArray.length !== 0 ? (
           <div className="row">
-            <div className="col-9">
-              <h5>{cartArray.length} Khóa học trong giỏ hàng</h5>
+            <div className="col-9" style={{overflow: "auto", height: "450px"}}>
+              
               <div className={styles.cartListElement}>
                 {cartArray.map(item => (
                   <div className="p-2 border" key={item.maKhoaHoc}>
                     <div className="row">
                       <div
-                        className="col-2"
+                      
+                        className={`col-2 ${styles.divImageScale}`}
                         onClick={() =>
                           props.history.push(`/course-detail/${item.maKhoaHoc}`)
                         }
@@ -193,7 +302,6 @@ const CartList = props => {
           </div>
         ) : (
           <div className={styles.cartEmpty}>
-            <h5>0 Khóa học trong giỏ hàng</h5>
             <div className={`${styles.cartEmptyContent} text-center`}>
               <div>
                 <p>
@@ -214,10 +322,21 @@ const CartList = props => {
         <div className={styles.courseListContainer}>
           <h5>Có thể bạn thích</h5>
           <div className={styles.courseList}>
-            {cartArray.length > 0 && listCourses.length > 0 ? (
+            {/* {isFetchCourseList ? (
               renderCourseList()
             ) : (
               <div>Loading.......</div>
+            )} */}
+            {Object.keys(accountInfo).length !== 0 &&
+            cartArray.length !== 0 &&
+            isFetchCourseList ? (
+              <Slider {...settings}>
+                {listCourses.map(item => (
+                  renderCourseList(item)
+                ))}
+             </Slider>
+            ) : (
+              <div className={styles.loadingCourses}>{loadingCourseList()}</div>
             )}
           </div>
         </div>

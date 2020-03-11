@@ -61,16 +61,17 @@ const Header = () => {
           <AddShoppingCartIcon className="mr-1" /> Thông tin giỏ hàng
         </PopoverHeader> */}
           {cartArray.length !== 0 ? (
-            <PopoverBody className="p-0" style={{ overflow: "hidden" }}>
+            <PopoverBody className="p-0">
+              <div style={{overflow: "auto", height:"200px"}}>
               {cartArray.map((item, index) => (
                 
                 <div
-                  className={`row mb-2 align-items-center pr-4 pl-4 pt-2 pb-2 ${styles.cartItem}`}
+                  className={`row mb-2 mr-0 align-items-center pl-4 pt-2 pb-2 ${styles.cartItem}`}
                   key={index}
                   style={{ cursor: "pointer" }}
                   
                 >
-                  <div className="col-3 pr-0">
+                  <div className="col-3 pr-0 pl-0">
                     <div>
                       <img
                         src={item.hinhAnh}
@@ -100,6 +101,7 @@ const Header = () => {
                 </div>
             
               ))}
+              </div>
               <div className={styles.totalPriceCart}>
                 <span className="mb-0">Tổng tiền: </span>
                 <strong>${totalPrice}</strong>
@@ -157,16 +159,17 @@ const Header = () => {
           <AddShoppingCartIcon className="mr-1" /> Thông tin giỏ hàng
         </PopoverHeader> */}
           {wishListArray.length !== 0 ? (
-            <PopoverBody className="p-0" style={{ overflow: "hidden" }}>
+            <PopoverBody className="p-0">
+              <div style={{overflow:"auto", height: "200px"}}>
               {wishListArray.map((item, index) => (
                 
                 <div
-                  className={`row mb-2 align-items-center pr-4 pl-4 pt-2 pb-2 ${styles.cartItem}`}
+                  className={`row mb-2 mr-0 align-items-center pl-4 pt-2 pb-2 ${styles.cartItem}`}
                   key={index}
                   style={{ cursor: "pointer" }}
                   
                 >
-                  <div className="col-3 pr-0">
+                  <div className="col-3 pr-0 pl-0">
                     <div>
                       <img
                         src={item.hinhAnh}
@@ -195,6 +198,7 @@ const Header = () => {
                 </div>
             
               ))}
+              </div>
               <div className={styles.totalPriceCart}>
                 <Button
                   color="danger"

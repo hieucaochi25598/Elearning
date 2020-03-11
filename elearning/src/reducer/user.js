@@ -30,7 +30,6 @@ const initialState = {
   cartArray: [],
   wishListArray: [],
   commentArray: [],
-  isSuccessAdd: false,
   totalPrice: 0
 };
 
@@ -88,11 +87,7 @@ const userReducer = (state = initialState, action) => {
       );
       if (index === -1) {
         cartArray.push(action.data);
-        state.isSuccessAdd = true;
-      } else {
-        state.isSuccessAdd = false;
-      }
-      
+      } 
       return { ...state, cartArray };
     }
     case DELETE_CART: {

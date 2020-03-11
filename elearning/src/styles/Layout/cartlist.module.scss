@@ -43,11 +43,69 @@
             }
         }
         .courseListContainer{
-            margin-top: 40px;
+            margin-top: 30px;
             .courseList{
-                display: grid;
-                grid-template-columns: repeat(5,1fr);
-                grid-gap: 20px;
+                .loadingCourses{
+                    display: grid;
+                    grid-template-columns: repeat(5,1fr);
+                    grid-gap: 20px;
+                }
+                .cardCourses{
+                    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+                    transition: all 0.3s;
+                    border: none;
+                    border-radius: unset;
+                    
+                    &:hover{
+                        box-shadow:0 0 10px 3px rgba(20, 23, 28, 0.1), 0 3px 1px 1px rgba(20, 23, 28, 0.1);
+                        .divInsideImage{
+                            background: rgba(0, 0, 0, 0.5);
+                        }
+                        img{
+                            transform: scale(1.1);
+                        }
+                    }
+                    cursor: pointer;
+                    .divImage{
+                        img{
+                            transition: all 0.3s;
+                        }
+                        overflow: hidden;
+                        position: relative;
+                        .divInsideImage{
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 100%;
+                            height: 100%;
+                            transition: all 0.5s;
+                        }
+                        .hotCourse{
+                            position: absolute;
+                            top: 10px;
+                            left: 0;
+                            padding: 1px 10px;
+                            font-size: 9px;
+                            border-radius: 0 10px 10px 0 ;
+                            font-weight: bold;
+                            background: #F4C150;
+                        }
+                    }
+                    .inStrucTor{
+                        color: #686f7a;
+                        font-size: 13px;
+                    }
+                    .iconStar{
+                        font-size: 15px;
+                        color: #F4C150;
+                    }
+                    .ratingStar{
+                        font-size: 13px;
+                        font-weight: 500;
+                        margin-left: 5px;
+                    }
+                }
+                
             }
         }
         .cartEmpty{
