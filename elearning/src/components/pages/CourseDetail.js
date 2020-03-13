@@ -26,8 +26,8 @@ const CourseDetail = ({ ...props }) => {
             {courseDetail.danhMucKhoaHoc && <p>{courseDetail.danhMucKhoaHoc.tenDanhMucKhoaHoc}</p>}
             {/* Do luc dau chay render truoc nen object luc dau se bi rong nen can phai qua buoc kiem tra */}
         {/* <button className="btn btn-success" onClick={() => {dispatch(signUpCourse(courseDetail.maKhoaHoc,handleSuccess))}}>Dang ky khoa hoc</button> */}
-        {commentArray.map(item => (
-            <React.Fragment key={item.taiKhoan}>
+        {commentArray.map((item,index) => (
+            <React.Fragment key={index}>
             <p>{item.taiKhoan}</p>
         <p>{item.comment}</p>
         </React.Fragment>

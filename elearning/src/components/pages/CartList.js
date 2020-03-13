@@ -81,7 +81,6 @@ const CartList = props => {
             <div className={styles.divInsideImage}></div>
             <span className={styles.hotCourse}>BESTSELLER</span>
           </div>
-
           <div className="card-body">
             <h6 className="card-title">{course.tenKhoaHoc}</h6>
             <p className={`card-text ${styles.inStrucTor} mb-1`}>
@@ -163,9 +162,7 @@ const CartList = props => {
     if (userInfo.soDu > totalPrice) {
       for (let i = 0; i < cartArray.length; i++) {
         dispatch(
-          signUpCourse(cartArray[i].maKhoaHoc, () =>
-            props.history.push("/course-list")
-          )
+          signUpCourse(cartArray[i].maKhoaHoc)
         );
       }
       dispatch(clearCart());
@@ -328,7 +325,6 @@ const CartList = props => {
               <div>Loading.......</div>
             )} */}
             {Object.keys(accountInfo).length !== 0 &&
-            cartArray.length !== 0 &&
             isFetchCourseList ? (
               <Slider {...settings}>
                 {listCourses.map(item => (

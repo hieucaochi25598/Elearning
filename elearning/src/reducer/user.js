@@ -17,7 +17,8 @@ import {
   COMMENT_COURSE,
   GET_WISHLIST_ARRAY,
   ADD_TO_WISHLIST,
-  DELETE_WISHLIST
+  DELETE_WISHLIST,
+  GET_FEEDBACK_ARRAY
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -30,6 +31,7 @@ const initialState = {
   cartArray: [],
   wishListArray: [],
   commentArray: [],
+  feedBackArray: [],
   totalPrice: 0
 };
 
@@ -130,15 +132,10 @@ const userReducer = (state = initialState, action) => {
     case COMMENT_COURSE: {
       const commentArray = [...state.commentArray]
       const userInfo = {...state.userInfo}
-      const index = commentArray.findIndex(item => item.taiKhoan === userInfo.taiKhoan)
-      if(index === -1){
-        commentArray.push({
-          ...action.data,
-          taiKhoan: userInfo.taiKhoan
-        })
-      }else{
-        commentArray[index].comment = action.data.comment
-      }
+      commentArray.push({
+        ...action.data,
+        taiKhoan: userInfo.taiKhoan
+      })
       return {...state, commentArray}
     }
     case GET_COMMENT_COURSE:
@@ -167,6 +164,10 @@ const userReducer = (state = initialState, action) => {
       }
       return {...state, wishListArray}
     }
+    case GET_FEEDBACK_ARRAY:
+      {
+        return {...state, feedBackArray: action.data}
+      }
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST, GET_FEEDBACK_ARRAY } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 import { firebaseApp } from '../firebaseConfig'
 
@@ -341,8 +341,9 @@ export const commentCourse = (values) => {
     return (dispatch,getState) => {
         const {courseDetail} = getState().courseReducer
         const {userInfo} = getState().userReducer
-        firebaseApp.database().ref(`${courseDetail.maKhoaHoc}/${userInfo.taiKhoan}/`).set({
-            comment: values.comment
+        firebaseApp.database().ref(`commentArray/${courseDetail.maKhoaHoc}/`).push({
+            comment: values.comment,
+            taiKhoan: userInfo.taiKhoan
         }).then(() => {
             dispatch(commentCourseAction(values))
         })
@@ -356,17 +357,21 @@ export const commentCourseAction = (comment) => {
 }
 export const getCommentCourse = (maKhoaHoc) => {
     return (dispatch, getState) => {
-        firebaseApp.database().ref(`${maKhoaHoc}/`).once("value").then((snapshot) => {
+        firebaseApp.database().ref(`commentArray/${maKhoaHoc}/`).once("value").then((snapshot) => {
+            console.log(snapshot.val())
             let commentArray = []
             snapshot.forEach(element => {
-                const taiKhoan = element.key
+                const commentId = element.key
                 const comment = element.val().comment
+                const taiKhoan = element.val().taiKhoan
                 commentArray.push({
+                    commentId,
                     taiKhoan,
                     comment
                 })
             })
             dispatch(getCommentCourseAction(commentArray))
+            console.log(commentArray)
         })
     }
 }
@@ -452,5 +457,34 @@ export const deleteWishListAction = (maKhoaHoc) => {
     return {
         type: DELETE_WISHLIST,
         data: maKhoaHoc
+    }
+}
+
+export const getFeedBack = () => {
+    return (dispatch, getState) => {
+        firebaseApp.database().ref('feedBackArray/').once("value").then(snapshot => {
+            let feedBackArray = []
+            snapshot.forEach(element => {
+                const hoTen = element.val().hoTen
+                const taiKhoan = element.val().taiKhoan
+                const content = element.val().content
+                const id = element.key
+                feedBackArray.push({
+                    id,
+                    hoTen,
+                    taiKhoan,
+                    content
+                })
+            })
+            console.log(feedBackArray)
+            dispatch(getFeedBackArrayAction(feedBackArray))
+        })
+    }
+}
+
+export const getFeedBackArrayAction = (feedBackArray) => {
+    return {
+        type: GET_FEEDBACK_ARRAY,
+        data: feedBackArray
     }
 }

@@ -1,0 +1,14 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+.instructionContainer{
+    width: 85%;
+    margin: 0 auto;
+    h2{
+        font-weight: 700;
+        color: #ec5252;
+    }
+    .cardInstruct{
+     box-shadow: 0 4px 9px 0 rgba(67, 65, 79, 0.1);
+    
+    }
+}

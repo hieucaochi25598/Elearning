@@ -1,0 +1,33 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+.courseTitleHomeContainer{
+    width: 85%;
+    margin: 0 auto;
+    h3{
+        font-weight: 700;
+    }
+    .courseTitleContent{
+        background: #f2f2f2;
+        margin-bottom: 25px;
+        padding: 20px;
+        cursor: pointer;
+        &:hover{
+            .iconTitle{
+                color: white;
+                background-color: #ec5252;
+
+            }
+        }
+        .iconTitle{
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            font-size: 30px;
+            border-radius: 50%;
+            color: #ec5252;
+            border: 1px solid #ec5252;
+            text-align: center;
+            transition: all 0.3s;
+        }
+    }
+}

@@ -27,4 +27,11 @@
         content: "\f105" !important;
         font-weight: 900;
     }
+    .slick-dots li button:before {
+        font-size: 15px;
+        color: #ec5252;
+    }
+    .slick-dots li.slick-active button:before {
+        color: #ec5252;
+    }
 }

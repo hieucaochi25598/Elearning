@@ -1,0 +1,35 @@
+@import '../Helper/variable.scss';
+@import '../Helper/mixin.scss';
+
+.statesHome{
+    background-image: url('../../img/hero-area.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 400px;
+    margin-top: 30px;
+    
+//     display: flex;
+//    justify-content: center;
+//    align-items: center;
+   .ourStates{
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-size: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        .statesIcons{
+            margin-bottom: 30px;
+            font-size: 80px;
+        
+        }
+        .contentStates{
+            font-weight: 100;
+            font-size: 30px;
+            color: #ec5252;
+        }
+   }
+}
