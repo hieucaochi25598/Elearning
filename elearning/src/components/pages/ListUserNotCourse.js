@@ -12,14 +12,14 @@ const ListUserNotCourse = () => {
     
     return (
         <div>
-            <h2>Danh sach hoc vien chua ghi danh khoa hoc</h2>
-            <h3>Khoa hoc {courseChosen.tenKhoaHoc}</h3>
-      <table class="table">
-        <thead>
+            <h2>DANH SÁCH HỌC VIÊN CHƯA GHI DANH</h2>
+            <h3>KHÓA HỌC {courseChosen.tenKhoaHoc.toUpperCase()}</h3>
+      <table className="table table-striped">
+        <thead className="thead-dark">
           <tr>
-            <th>Tai khoan</th>
-            <th>Bi danh</th>
-            <th>Ho ten</th>
+            <th>Tài khoản</th>
+            <th>Bí danh</th>
+            <th>Họ tên</th>
           </tr>
         </thead>
 

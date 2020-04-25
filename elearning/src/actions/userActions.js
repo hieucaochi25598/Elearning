@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST, GET_FEEDBACK_ARRAY } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST, GET_FEEDBACK_ARRAY, GET_NEWS_ARRAY, SEND_FEEDBACK } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 import { firebaseApp } from '../firebaseConfig'
 
@@ -466,12 +466,14 @@ export const getFeedBack = () => {
             let feedBackArray = []
             snapshot.forEach(element => {
                 const hoTen = element.val().hoTen
+                const ngayGui = element.val().ngayGui
                 const taiKhoan = element.val().taiKhoan
                 const content = element.val().content
                 const id = element.key
                 feedBackArray.push({
                     id,
                     hoTen,
+                    ngayGui,
                     taiKhoan,
                     content
                 })
@@ -486,5 +488,61 @@ export const getFeedBackArrayAction = (feedBackArray) => {
     return {
         type: GET_FEEDBACK_ARRAY,
         data: feedBackArray
+    }
+}
+export const getNews = () => {
+    return dispatch => {
+        firebaseApp.database().ref('newsArray/').once("value").then(snapshot => {
+            let newsArray = []
+            snapshot.forEach(element => {
+                const id = element.key
+                const tieuDe = element.val().tieuDe
+                const hinhAnh = element.val().hinhAnh
+                const noiDung = element.val().noiDung
+                const ngayTao = element.val().ngayTao
+                newsArray.push({
+                    id,
+                    tieuDe,
+                    ngayTao,
+                    hinhAnh,
+                    noiDung
+                })
+            })
+            dispatch(getNewsAction(newsArray))
+        })
+    }
+}
+export const getNewsAction = (news) => {
+    return {
+        type: GET_NEWS_ARRAY,
+        data: news
+    }
+}
+export const sendFeedBack = (values) => {
+    return (dispatch, getState) => {
+        const {userInfo} = getState().userReducer
+        let toDay = new Date()
+        let ngayGui = `${toDay.getDate()}/${toDay.getMonth() + 1}/${toDay.getFullYear()}`
+        firebaseApp.database().ref('feedBackArray/').push({
+            content: values.yourFeedBack,
+            taiKhoan: userInfo.taiKhoan,
+            ngayGui: ngayGui,
+            hoTen: userInfo.hoTen
+        }).then(() => {
+            dispatch(sendFeedBackAction(values))
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Cảm ơn bạn đã gửi phản hồi.',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        })
+    }
+}
+export const sendFeedBackAction = (values) => {
+    return {
+        type: SEND_FEEDBACK,
+        data: values
     }
 }

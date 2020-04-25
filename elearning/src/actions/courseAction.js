@@ -1,8 +1,82 @@
 import axios from '../util/axios'
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT } from '../contants/courseConstant'
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
 import { firebaseApp } from '../firebaseConfig'
 
+export const themKhoaHoc = khoaHoc => {
+    return (dispatch, getState) => {
+        // Lấy dữ liệu từ redux store thông qua getState
+        const {userInfo} = getState().userReducer;
+        const {currentPage} = getState().courseReducer
+        const date = new Date();
+        console.log(khoaHoc.hinhAnh);
+        const dataSubmit = {
+            ...khoaHoc,
+            hinhAnh: khoaHoc.hinhAnh.name,
+            luotXem: 10,
+            danhGia: 0,
+            taiKhoanNguoiTao: userInfo.taiKhoan,
+            ngayTao: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,   // dd / mm / yy
+            maNhom: "GP01",
+        }
+        axios.request({
+            method: "POST",
+            url: "QuanLyKhoaHoc/ThemKhoaHoc",
+            data: dataSubmit
+        }).then(result => {
+            const formData = new FormData();
+            formData.append("file", khoaHoc.hinhAnh);
+            formData.append("tenKhoaHoc", khoaHoc.tenKhoaHoc)
+            axios.request({
+                method: "POST",
+                url: 'QuanLyKhoaHoc/UpLoadHinhAnhKhoaHoc',
+                data: formData
+            }).then(result => {
+                console.log(result)
+                dispatch(getCourseList(currentPage, 10, () => {}))
+            }).catch(error => {
+                console.log(error)
+            })
+        })
+    }
+}
+export const suaKhoaHoc = khoaHoc => {
+    return (dispatch, getState) => {
+        // Lấy dữ liệu từ redux store thông qua getState
+        const {userInfo} = getState().userReducer;
+        const {currentPage} = getState().courseReducer
+        const date = new Date();
+        console.log(khoaHoc.hinhAnh);
+        const dataSubmit = {
+            ...khoaHoc,
+            hinhAnh: khoaHoc.hinhAnh.name,
+            luotXem: 10,
+            danhGia: 0,
+            taiKhoanNguoiTao: userInfo.taiKhoan,
+            ngayTao: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,   // dd / mm / yy
+            maNhom: "GP01",
+        }
+        axios.request({
+            method: "PUT",
+            url: "QuanLyKhoaHoc/CapNhatKhoaHoc",
+            data: dataSubmit
+        }).then(result => {
+            const formData = new FormData();
+            formData.append("file", khoaHoc.hinhAnh);
+            formData.append("tenKhoaHoc", khoaHoc.tenKhoaHoc)
+            axios.request({
+                method: "POST",
+                url: 'QuanLyKhoaHoc/UpLoadHinhAnhKhoaHoc',
+                data: formData
+            }).then(result => {
+                console.log(result)
+                dispatch(getCourseList(currentPage, 10, () => {}))
+            }).catch(error => {
+                console.log(error)
+            })
+        })
+    }
+}
 export const getCourseList = (currentPage, pageSize,handleSuccess) =>{
     return dispatch => {
         axios.request({
@@ -128,6 +202,26 @@ export const findCourseAction = (course) => {
         data: course
     }
 }
+export const findCourseAdmin = (tenKhoaHoc) => {
+    return (dispatch) => {
+        
+        axios.request({
+            method: 'GET',
+            url: `QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=GP01`
+        }).then(result => {
+            dispatch(findCourseAdminAction(result.data))
+        }).catch(error => {
+            
+            console.log(error)
+        })
+    }
+}
+export const findCourseAdminAction = (resultFound) => {
+    return {
+        type: FIND_COURSE_ADMIN,
+        data: resultFound
+    }
+}
 export const findCourseNoResultAction = () => {
     return {
         type: FIND_COURE_NO_RESULT
@@ -239,26 +333,26 @@ export const confirmUserJoinCourse = () => {
     }
 }
 
-export const cancleUserJoinCourse = () => {
+export const cancleUserJoinCourse = (taiKhoan, maKhoaHoc) => {
     return (dispatch,getState) => {
-        const {courseChosen} = getState().courseReducer
-        const {userChosing} = getState().usersReducer
+        // const {courseChosen} = getState().courseReducer
+        // const {userChosing} = getState().usersReducer
         axios.request({
             method: 'POST',
             url: 'QuanLyKhoaHoc/HuyGhiDanh',
-            data: {taiKhoan: userChosing.taiKhoan ,maKhoaHoc: courseChosen.maKhoaHoc}
+            data: {taiKhoan, maKhoaHoc}
         }).then(result => {
-            dispatch(getUserListWaitCourse())
-            dispatch(getUserListOfCourse())
-            /////////////////////////////
-            dispatch(getCourseListWaitEnrolled())
-            dispatch(getCourseListEnrolled())
+            // dispatch(getUserListWaitCourse(maKhoaHoc))
+            dispatch(getUserListOfCourse(maKhoaHoc))
+            dispatch(getUserListWaitCourse(maKhoaHoc))
+            // /////////////////////////////
+            // dispatch(getCourseListWaitEnrolled())
+            // dispatch(getCourseListEnrolled())
         }).catch(error => {
             console.log(error)
         })
     }
 }
-
 export const changePrice = () => {
     return {
         type: CHANGE_PRICE

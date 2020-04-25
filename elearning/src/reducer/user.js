@@ -18,7 +18,9 @@ import {
   GET_WISHLIST_ARRAY,
   ADD_TO_WISHLIST,
   DELETE_WISHLIST,
-  GET_FEEDBACK_ARRAY
+  GET_FEEDBACK_ARRAY,
+  GET_NEWS_ARRAY,
+  SEND_FEEDBACK
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -32,6 +34,7 @@ const initialState = {
   wishListArray: [],
   commentArray: [],
   feedBackArray: [],
+  newsArray: [],
   totalPrice: 0
 };
 
@@ -168,6 +171,26 @@ const userReducer = (state = initialState, action) => {
       {
         return {...state, feedBackArray: action.data}
       }
+      case GET_NEWS_ARRAY:
+        {
+          return {...state, newsArray: action.data}
+        }
+      case SEND_FEEDBACK:
+        {
+          const feedBackArray = [...state.feedBackArray]
+          const userInfo = {...state.userInfo}
+          let toDay = new Date()
+          let ngayGui = `${toDay.getDate()}/${toDay.getMonth() + 1}/${toDay.getFullYear()}`
+          feedBackArray.push({
+            content: action.data.yourFeedBack,
+            taiKhoan: userInfo.taiKhoan,
+            ngayGui: ngayGui,
+            hoTen: userInfo.hoTen
+          }
+            
+          )
+          return {...state, feedBackArray}
+        }
     default:
       return state;
   }

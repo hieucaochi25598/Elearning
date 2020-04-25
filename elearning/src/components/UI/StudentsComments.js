@@ -27,7 +27,7 @@ const StudentsComments = () => {
     return (
         <div className={styles.commentsContainer}>
             <div className={styles.commentContent}>
-                <h2 className="text-center">Đánh Giá Của Học Viên</h2>
+                <h2 className="text-center">ĐÁNH GIÁ CỦA HỌC VIÊN</h2>
                 <div className={styles.feedBackContent}>
                     <Slider {...settings}>
                     {feedBackArray.length !== 0 ? (feedBackArray.map((item,index) => (
@@ -43,7 +43,7 @@ const StudentsComments = () => {
                                 </div>
                                 <div className={styles.feedBackContentName}>
                                     <h5 className="mb-2">{item.hoTen}</h5>
-                                    <p className={styles.feedBackContentAccount}>{item.taiKhoan}</p>
+                                    <p className="mb-0">{item.ngayGui}</p>
                                 </div>
                             </div>
                         </div>

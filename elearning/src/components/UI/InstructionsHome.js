@@ -3,7 +3,7 @@ import styles from "../../styles/Layout/instructionshome.module.scss";
 const InstructionsHome = () => {
   return (
     <div className={styles.instructionContainer}>
-      <h2 className="text-center m-5">Bài Hướng Dẫn Nổi Bật</h2>
+      <h2 className="text-center m-5">BLOG</h2>
       <div className={styles.instructionContent}>
         <div className="row">
           <div className="col-3 mb-4">

@@ -28,6 +28,7 @@ import './styles/Base/reset.scss'
 import ResultFindCourses from './components/pages/ResultFindCourses';
 import CartList from './components/pages/CartList';
 import WishList from './components/pages/WishList';
+import UserDetailAdminLayout from './components/layout/UserDetailAdminLayout';
 
 function App() {
   const dispatch = useDispatch()
@@ -56,15 +57,19 @@ function App() {
         {/* Admin Route */}
         <AdminLayout path="/admin">
           <Switch>
+          <Route exact path="/admin" component={() => (<Redirect to="/admin/courses-management"/>)}/>
             <AdminAuth path="/admin/courses-management" component={CourseManagement} />
             <AdminAuth path="/admin/users-management" component={UserManagement}/>
             <AdminAuth path="/admin/list-user-course/:maKhoaHoc" component={ListUserCourse}/>
             <AdminAuth path="/admin/list-user-not-course/:maKhoaHoc" component={ListUserNotCourse}/>
             <AdminAuth path="/admin/list-user-wait-course/:maKhoaHoc" component={ListUserWaitCourse}/>
-            <AdminAuth path="/admin/list-course-not-enroll/:taiKhoan" component={ListCourseNotEnroll}/>
-            <AdminAuth path="/admin/user-detail/:taiKhoan" component={UserDetailAdmin}/>
-            <AdminAuth path="/admin/list-course-enrolled/:taiKhoan" component={ListCourseEnrolled}/>
-            <AdminAuth path="/admin/list-course-wait-enrolled/:taiKhoan" component={ListCourseWaitEnrolled}/>
+            <UserDetailAdminLayout path="/admin/user-detail">
+              <Switch>
+                <AdminAuth path="/admin/user-detail/list-course-enrolled/:taiKhoan" component={ListCourseEnrolled}/>
+                <AdminAuth path="/admin/user-detail/list-course-wait-enrolled/:taiKhoan" component={ListCourseWaitEnrolled}/>
+                <AdminAuth path="/admin/user-detail/list-course-not-enroll/:taiKhoan" component={ListCourseNotEnroll}/>
+              </Switch>
+            </UserDetailAdminLayout>
           </Switch>
         </AdminLayout>
 

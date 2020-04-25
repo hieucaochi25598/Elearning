@@ -1,0 +1,56 @@
+@import "../Helper/variable.scss";
+@import "../Helper/mixin.scss";
+.footer{
+    background-color: #141415;
+    padding: 30px 0;
+    margin-top: 50px;
+    .footerContainer{
+        width: 85%;
+        margin: 0 auto;
+        h2{
+            font-size: 25px;
+            margin-bottom: 30px;
+            color: #EA4335;
+            font-weight: 700;
+        }
+        p{
+           color:  #787881;
+        }
+        i{
+            width: 30px;
+            height: 30px;
+            color: white;
+            border: 1px solid white;
+            margin-right: 10px
+            ;
+            line-height: 30px;
+            text-align: center;
+        }
+        .myInput{
+            background: transparent;
+            box-shadow: unset;
+            outline: none;
+            border-radius: unset;
+            border: 2px solid white;
+            color: white;
+            height: 200px;
+            &:focus{
+                border: 2px solid #EA4335
+            }
+        }
+        .divButtonSubmit{
+            width: 100%;
+            text-align: center;
+            .btnSubmit{
+                padding: 10px 20px;
+                background-color: transparent;
+                border: 2px solid #EA4335 !important;
+                border-radius: 50px;
+                transition: all 0.4s;
+                &:hover{
+                    background-color: #EA4335;
+                }
+            }
+        }
+    }
+}

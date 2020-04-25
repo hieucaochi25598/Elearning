@@ -3,26 +3,21 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import {Link} from 'react-router-dom'
 const AdminLayout = (props) => {
     return (
-        <div className="d-flex">
-            <div style={{ width: '300px', height: '100vh' }}>
-                <p>QUAN TRI HE THONG</p>
+        <div className="row mr-0 position-relative">
+            <div style={{width: "255px"}}>
+            <div className="col-2 bg-dark position-fixed" style={{height: "100vh"}}>
+                <h2 className="text-white text-center mt-3">DASHBOARD</h2>
                 <Nav vertical>
-                <NavItem>
-                        <NavLink><Link to="/home">Trang chu</Link></NavLink>
+                    <NavItem>
+                        <NavLink tag={Link} to="/admin/users-management">Quản Lý Người Dùng</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to="/admin/users-management">Quan Ly Nguoi Dung </Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink><Link to="/admin/courses-management">Quan Ly Khoa Hoc</Link></NavLink>
-                    </NavItem>
-                   
-                    <NavItem>
-                        <NavLink disabled href="#">Disabled Link</NavLink>
+                        <NavLink tag={Link} to="/admin/courses-management">Quản Lý Khóa Học</NavLink>
                     </NavItem>
                 </Nav>
             </div>
-            <div>{props.children}</div>
+            </div>
+            <div className="col-10">{props.children}</div>
         </div>
     )
 }

@@ -8,15 +8,20 @@ import {
   FIND_USER,
   GET_COURSE_LIST_NOT_ENROLL,
   GET_COURSE_LIST_ENROLLED,
-  GET_COURSE_LIST_WAIT_ENROLLED
+  GET_COURSE_LIST_WAIT_ENROLLED,
+  CHANGE_PAGE,
+  DELETE_USER,
+  CANCLE_ENROLL,
+  CONFIRM_ENROLL,
+  CHANGE_PAGE_USER
 } from "../contants/usersConstants";
 import Swal from "sweetalert2";
-export const getUserList = () => {
+export const getUserList = (currentPage, pageSize) => {
   return dispatch => {
     axios
       .request({
         method: "GET",
-        url: "QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01"
+        url: `QuanLyNguoiDung/LayDanhSachNguoiDung_PhanTrang?MaNhom=GP01&page=${currentPage}&pageSize=${pageSize}`,
       })
       .then(result => {
         dispatch(getUserListAction(result.data));
@@ -32,6 +37,12 @@ export const getUserListAction = userList => {
     data: userList
   };
 };
+export const changePageAction = page => {
+  return {
+      type: CHANGE_PAGE_USER,
+      data: page
+  }
+}
 export const deleteUser = taiKhoan => {
   return dispatch => {
     axios
@@ -40,7 +51,7 @@ export const deleteUser = taiKhoan => {
         url: `QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`
       })
       .then(result => {
-        dispatch(getUserList())
+        dispatch(deleteUserAction(taiKhoan))
         Swal.fire({
           position: "center",
           icon: "success",
@@ -61,7 +72,12 @@ export const deleteUser = taiKhoan => {
       });
   };
 };
-
+export const deleteUserAction = (taiKhoan) => {
+  return{
+    type: DELETE_USER,
+    data: taiKhoan
+  }
+}
 export const userChosingAction = user => {
   return {
     type: USER_CHOSING,
@@ -101,7 +117,7 @@ export const editUserDetail = values => {
         data: { ...values, maNhom: "GP01" }
       })
       .then(result => {
-        dispatch(editUserDetailAction(result.data));
+        dispatch(editUserDetailAction(values));
       })
       .catch(error => {
         console.log(error);
@@ -124,9 +140,15 @@ export const addUser = values => {
       })
       .then(result => {
         dispatch(addUserAction(result.data));
-        dispatch(getUserList())
       })
       .catch(error => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Tài khoản hoặc email đã tồn tại.",
+          showConfirmButton: false,
+          timer: 2000
+        });
         console.log(error);
       });
   };
@@ -219,6 +241,58 @@ export const getCourseListWaitEnrolledAction = (courseList) => {
   return {
     type: GET_COURSE_LIST_WAIT_ENROLLED,
     data: courseList
+  }
+}
+
+export const cancleEnroll = (taiKhoan, maKhoaHoc) => {
+  return (dispatch,getState) => {
+      // const {courseChosen} = getState().courseReducer
+      // const {userChosing} = getState().usersReducer
+      axios.request({
+          method: 'POST',
+          url: 'QuanLyKhoaHoc/HuyGhiDanh',
+          data: {taiKhoan, maKhoaHoc}
+      }).then(result => {
+        dispatch(cancleEnrollAction(maKhoaHoc))
+          // dispatch(getUserListWaitCourse())
+          // dispatch(getUserListOfCourse())
+          // /////////////////////////////
+          // dispatch(getCourseListWaitEnrolled())
+          // dispatch(getCourseListEnrolled())
+      }).catch(error => {
+          console.log(error)
+      })
+  }
+}
+
+export const confirmEnroll = (taiKhoan, maKhoaHoc) => {
+  return (dispatch, getState) => {
+      // const {courseChosen} = getState().courseReducer
+      // const {userChosing} = getState().usersReducer
+      axios.request({
+          method: 'POST',
+          url: 'QuanLyKhoaHoc/GhiDanhKhoaHoc',
+          data : {taiKhoan, maKhoaHoc}
+      }).then(result => {
+          // console.log(result)
+          // dispatch(getUserListWaitCourse())
+          // dispatch(getCourseListWaitEnrolled())
+          dispatch(confirmEnrollAction(maKhoaHoc))
+      }).catch(error => {
+          console.log(error)
+      })
+  }
+}
+export const confirmEnrollAction = (maKhoaHoc) => {
+  return {
+    type: CONFIRM_ENROLL,
+    data: maKhoaHoc
+  }
+}
+export const cancleEnrollAction = (maKhoaHoc) => {
+  return {
+    type: CANCLE_ENROLL,
+    data: maKhoaHoc
   }
 }
 

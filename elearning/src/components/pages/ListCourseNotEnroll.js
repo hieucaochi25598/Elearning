@@ -2,32 +2,41 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getCourseListNotEnroll } from '../../actions/usersAction'
+import { getCourseListAll } from '../../actions/courseAction'
 
 const ListCourseNotEnroll = () => {
     const dispatch = useDispatch()
     const {userChosing, listCourseNotEnroll} = useSelector(state => state.usersReducer)
     useEffect(() => {
         dispatch(getCourseListNotEnroll())
+        dispatch(getCourseListAll(() => {}))
     }, [])
+    const {listCourses} = useSelector(state => state.courseReducer)
+    const renderListNotEnrolled = (course) => {
+        const index = listCourseNotEnroll.findIndex(item => item.maKhoaHoc === course.maKhoaHoc)
+        if(index !== -1){
+            return <tr key={course.maKhoaHoc}>
+                
+                <td ><img src={course.hinhAnh} alt="images" width={70} height={70}/> {course.tenKhoaHoc}</td>
+                <td className="align-middle">{course.nguoiTao && course.nguoiTao.hoTen}</td>
+                <td className="align-middle">{course.ngayTao}</td>
+                
+            </tr>
+        }
+    }
     return (
         <div>
-            <h2>Danh sach khoa hoc chua ghi danh</h2>
-            <h2>Tai khoan: {userChosing.taiKhoan}</h2>
-            <table class="table">
-                <thead>
+            <table className="table table-striped">
+            <thead className="thead-dark">
                     <tr>
-                        <th>Ma khoa hoc</th>
-                        <th>Bi danh</th>
-                        <th>Ten khoa hoc</th>
+                        <th>Khóa Học</th>
+                        <th>Người Tạo</th>
+                        <th>Ngày Tạo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {listCourseNotEnroll.map(item => (
-                    <tr>
-                    <td>{item.maKhoaHoc}</td>
-                    <td>{item.biDanh}</td>
-                    <td>{item.tenKhoaHoc}</td>
-                    </tr>
+                    {listCourses.map(item => (
+                    renderListNotEnrolled(item)
                     ))}
                     
                     

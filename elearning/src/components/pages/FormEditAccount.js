@@ -28,6 +28,7 @@ export const MyInput = ({ ...props }) => {
   //field bao gom onChange, onBlur, name, value
   //meta bao gom error, touched, ...
   const errorText = meta.error && meta.touched ? meta.error : "";
+  console.log(meta)
   return (
     <React.Fragment>
       <Input
@@ -144,7 +145,7 @@ const FormEditAccount = () => {
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText className={styles.inputText}><NoteIcon/></InputGroupText>
                     </InputGroupAddon>
-                    <MyInput type="text" name="maLoaiNguoiDung" disabled/>
+                    <MyInput type="text" name="maLoaiNguoiDung" />
                   </InputGroup>
                 </FormGroup>
                 <div className="text-right mt-4 mb-2">

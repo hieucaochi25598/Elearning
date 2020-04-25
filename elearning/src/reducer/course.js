@@ -1,4 +1,4 @@
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT } from "../contants/courseConstant"
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN } from "../contants/courseConstant"
 
 const initialState = {
     listCourses: [],
@@ -46,6 +46,10 @@ const courseReducer = (state = initialState, action) => {
             {
                 
                 return { ...state, listCoursesFound:action.data }
+            }
+        case FIND_COURSE_ADMIN:
+            {
+                return {...state, listCourses: action.data}
             }
         case FIND_COURE_NO_RESULT:
             {

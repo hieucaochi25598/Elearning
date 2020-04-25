@@ -22,13 +22,13 @@ const StatesHome = () => {
                     <div className="col-3">
                     <LocalLibraryOutlinedIcon className={styles.statesIcons}/>
                         
-                        <p className="mb-1">+ 100</p>
+                        <p className="mb-1">+ 1000</p>
                         <p className={styles.contentStates}>Khóa Học</p>
                     </div>
                     <div className="col-3">
                     <AccessAlarmIcon className={styles.statesIcons}/>
                         
-                        <p className="mb-1">+ 1000</p>
+                        <p className="mb-1">+ 10000</p>
                         <p className={styles.contentStates}>Truy Cập</p>
                     </div>
                     <div className="col-3">

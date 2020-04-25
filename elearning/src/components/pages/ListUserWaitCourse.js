@@ -12,15 +12,15 @@ const ListUserWaitCourse = () => {
     },[])
     return (
         <div>
-             <h2>Danh sach hoc vien cho xet duyet khoa hoc</h2>
-            <h3>Khoa hoc {courseChosen.tenKhoaHoc}</h3>
-      <table class="table">
-        <thead>
+             <h2>DANH SÁCH HỌC VIÊN CHỜ XÉT DUYỆT</h2>
+            <h3>KHÓA HỌC {courseChosen.tenKhoaHoc.toUpperCase()}</h3>
+      <table className="table table-striped">
+        <thead className="thead-dark">
           <tr>
-            <th>Tai khoan</th>
-            <th>Bi danh</th>
-            <th>Ho ten</th>
-            <th>Chuc nang</th>
+            <th>Tài khoản</th>
+            <th>Bí danh</th>
+            <th>Họ tên</th>
+            <th>Chức năng</th>
           </tr>
         </thead>
 
@@ -31,8 +31,8 @@ const ListUserWaitCourse = () => {
               <td>{item.biDanh}</td>
               <td>{item.hoTen}</td>
             <td>
-                <button className="btn btn-primary" onClick={()=> {dispatch(userChosingAction(item)); dispatch(confirmUserJoinCourse())}}>Ghi danh</button>
-                <button className="btn btn-danger" onClick={() => {dispatch(userChosingAction(item)); dispatch(cancleUserJoinCourse())}}>Huy ghi danh</button>
+                <button className="btn btn-primary mr-2" onClick={()=> {dispatch(userChosingAction(item)); dispatch(confirmUserJoinCourse())}}>Ghi danh</button>
+                <button className="btn btn-danger" onClick={() => {dispatch(userChosingAction(item)); dispatch(cancleUserJoinCourse(item.taiKhoan, courseChosen.maKhoaHoc))}}>Hủy ghi danh</button>
             </td>
             </tr>
           ))}
