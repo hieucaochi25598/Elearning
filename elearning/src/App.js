@@ -6,7 +6,7 @@ import Signup from './components/pages/Signup';
 import UserLayout from './components/layout/UserLayout';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getAccountInfo, addToCartAction, getCartArrayAction, calTotalPrice, getWishList, getCartArray } from './actions/userActions';
+import { getUserInfo, getAccountInfo, addToCartAction, getCartArrayAction, calTotalPrice, getWishList, getCartArray, layDanhSachKhoaHocDaXetDuyet } from './actions/userActions';
 import CourseList from './components/pages/CourseList';
 import CourseDetail from './components/pages/CourseDetail';
 import UserAuth from './Auth/UserAuth';
@@ -29,6 +29,7 @@ import ResultFindCourses from './components/pages/ResultFindCourses';
 import CartList from './components/pages/CartList';
 import WishList from './components/pages/WishList';
 import UserDetailAdminLayout from './components/layout/UserDetailAdminLayout';
+import MyCourseOfUser from './components/pages/MyCourseOfUser';
 
 function App() {
   const dispatch = useDispatch()
@@ -43,7 +44,7 @@ function App() {
       dispatch(getAccountInfo())
       dispatch(getWishList())
       dispatch(getCartArray())
-      
+      dispatch(layDanhSachKhoaHocDaXetDuyet())
     }
   }, [])
   useEffect(() => {
@@ -80,6 +81,7 @@ function App() {
             <Route exact path="/" component={() => (<Redirect to="/home"/>)}/>
             <Route path="/home" component={Home} />
             <Route path="/course-list" component={CourseList} />
+            <UserAuth path="/my-courses" component={MyCourseOfUser}/>
             <Route path="/result-courses/:tenKhoaHoc" component={ResultFindCourses}/>
             <UserAuth path="/course-detail/:maKhoaHoc" component={CourseDetail} />
             <UserAuth path="/account-info/:taiKhoan" component={UserDetail}/>

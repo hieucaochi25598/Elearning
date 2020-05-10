@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import FileUploader from "react-firebase-file-uploader";
+import Swal from "sweetalert2"
 import {
   getCourseList,
   deleteCourse,
@@ -8,7 +10,9 @@ import {
   getUserListOfCourse,
   findCourse,
   findCourseAdmin,
-  getCourseTitle
+  getCourseTitle,
+  uploadStartAction,
+  uploadSuccessAction
 } from "../../actions/courseAction";
 import PaginationComponent from "../layout/Pagination";
 import useFetchCoursesList from "../../customHook/useFetchCourseList";
@@ -21,12 +25,17 @@ import { InputAdornment } from "@material-ui/core";
 import FormAddCourse from "./FormAddCourse";
 import { useState } from "react";
 import FormEditCourse from "./FormEditCourse";
+import { firebaseApp } from "../../firebaseConfig";
 const CourseManagement = props => {
-  const { courseChosen, courseTitle } = useSelector(
+  const { courseChosen, courseTitle,document, documentUrl, progress } = useSelector(
     state => state.courseReducer
   );
   const [isOpenCourse, setIsOpenCourse] = useState(false)
   const [isOpenEditCourse, setIsOpenEditCourse] = useState(false)
+  const [initialDocument, setInitialDocument]=useState({
+    document:'',
+    progress: 0
+  })
   const {
     listCourses,
     currentPage,
@@ -41,10 +50,42 @@ const CourseManagement = props => {
   const handleCloseModalEditCourse = () =>{
     setIsOpenEditCourse(false)
   }
+ 
   useEffect(() => {
     dispatch(getCourseTitle())
   }, [])
-  
+  const handleUpLoadStart = () => {
+    setInitialDocument({...initialDocument,progress: 0})
+  }
+  const handleUploadSuccess = (filename) => {
+    setInitialDocument({...initialDocument, document: filename, progress: 100})
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Thêm thành công',
+      showConfirmButton: false,
+      timer: 2500
+  })
+    // firebaseApp.storage().ref(`${courseChosen.maKhoaHoc}`).child(filename).getDownloadURL().then(url => setInitialDocument({...initialDocument, documentUrl: url}))
+    // var listRef = firebaseApp.storage().ref().child(`${courseChosen.maKhoaHoc}`);
+    // listRef.listAll().then(function(res) {
+    //   // res.prefixes.forEach(function(folderRef) {
+    //   //   // All the prefixes under listRef.
+    //   //   // You may call listAll() recursively on them.
+    //   //   console.log(folderRef)
+    //   // });
+    //   var documentUrl = []
+    //   res.items.forEach(function(itemRef) {
+    //     // All the items under listRef.
+    //     itemRef.getDownloadURL().then(url => documentUrl.push())
+    //     console.log(itemRef)
+    //   });
+    //   console.log(documentUrl)
+    // }).catch(function(error) {
+    //   // Uh-oh, an error occurred!
+    // });
+  }
+  console.log(initialDocument)
   return (
     <div>
       <FormAddCourse isOpenCourse={isOpenCourse} handleCloseModalCourse={handleCloseModalCourse}/>
@@ -109,6 +150,18 @@ const CourseManagement = props => {
               )}
               <td className="align-middle text-center">
                 <div>
+                
+                <FileUploader
+                    onClick={() => dispatch(courseChosenAction(item))}
+                  
+                    accept="document/*"
+                    name="document"
+                    storageRef={firebaseApp.storage().ref(`${item.maKhoaHoc}`)}
+                    onUploadStart={handleUpLoadStart}
+                    onUploadSuccess={handleUploadSuccess}
+                    className="mb-2"
+                />
+                <br/>
                 <button
                   className="btn btn-warning mr-2 mb-2"
                   onClick={() => {

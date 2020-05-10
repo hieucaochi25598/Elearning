@@ -1,8 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getCourseListWaitEnrolled, confirmEnroll, cancleEnroll } from '../../actions/usersAction'
+import { getCourseListWaitEnrolled, confirmEnroll, cancleEnroll, ghiDanhTheoNguoiDung } from '../../actions/usersAction'
 import { courseChosenAction, confirmUserJoinCourse, cancleUserJoinCourse, getCourseListAll } from '../../actions/courseAction'
+
 
 const ListCourseWaitEnrolled = () => {
     const dispatch = useDispatch()
@@ -20,21 +21,13 @@ const ListCourseWaitEnrolled = () => {
             <td className="align-middle">{course.nguoiTao && course.nguoiTao.hoTen}</td>
             <td className="align-middle">{course.ngayTao}</td>
             <td className="align-middle">
-            <button className="btn btn-success mr-2" onClick={() => {dispatch(confirmEnroll(userChosing.taiKhoan, course.maKhoaHoc))}}><i className="fa fa-check mr-2"></i>Ghi danh</button>
+            <button className="btn btn-success mr-2" onClick={() => {dispatch(confirmEnroll(userChosing.taiKhoan, course.maKhoaHoc)); dispatch(ghiDanhTheoNguoiDung(course))}}><i className="fa fa-check mr-2"></i>Ghi danh</button>
                 <button className="btn btn-danger" onClick={() => {dispatch(cancleEnroll(userChosing.taiKhoan, course.maKhoaHoc))}}>
                 <i className="fa fa-times-circle mr-2"></i>Hủy ghi danh
                 </button>
             </td>
         </tr>
-            // <tr>
-            // <td>{course.maKhoaHoc}</td>
             
-            // <td>{item.tenKhoaHoc}</td>
-            // <td>
-            //     
-            //     <button className="btn btn-danger" onClick={() => {dispatch(cancleEnroll(userChosing.taiKhoan, item.maKhoaHoc))}}>Huy ghi danh</button>
-            // </td>
-            // </tr>
         }
     }
     return (
@@ -51,15 +44,9 @@ const ListCourseWaitEnrolled = () => {
                 </thead>
                 <tbody>
                     {listCourses.map(item => (
-                    // <tr>
-                    // <td>{item.maKhoaHoc}</td>
+                 
                     renderListCourseWait(item)
-                    // <td>{item.tenKhoaHoc}</td>
-                    // <td>
-                    //     <button className="btn btn-success" onClick={() => {dispatch(confirmEnroll(userChosing.taiKhoan, item.maKhoaHoc))}}>Ghi danh</button>
-                    //     <button className="btn btn-danger" onClick={() => {dispatch(cancleEnroll(userChosing.taiKhoan, item.maKhoaHoc))}}>Huy ghi danh</button>
-                    // </td>
-                    // </tr>
+                   
                     ))}
                     
                     

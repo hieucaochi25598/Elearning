@@ -146,6 +146,15 @@ const Header = () => {
                 <ListAltIcon fontSize="large" /> DANH SÁCH KHÓA HỌC
               </NavLink>
             </NavItem>
+            <NavItem className={styles.myNavItem}>
+              <NavLink
+                className={styles.myNavLink}
+                tag={Link}
+                to="/my-courses"
+              >
+                <ListAltIcon fontSize="large" /> KHÓA HỌC CỦA TÔI
+              </NavLink>
+            </NavItem>
             <NavItem id="PopoverWishList">
               <NavLink className={styles.myWishList}>
                 <FavoriteBorderIcon fontSize="small"/>
@@ -252,26 +261,13 @@ const Header = () => {
                   )}
                   <DropdownItem divider />
                   <DropdownItem
+                    
                     onClick={() =>
-                      Swal.fire({
-                        title: "Bạn có chắc chắn muốn đăng xuất?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Có",
-                        cancelButtonText: "Không"
-                      }).then(result => {
-                        if (result.value) {
-                          handleLogout();
-                        }
-                      })
+                      handleLogout()
                     }
-                    tag={Link}
-                    to="/home"
                     className={styles.myDropDown}
                   >
-                    <ExitToAppIcon /> Đăng xuất
+                    <ExitToAppIcon />Đăng xuất
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

@@ -1,5 +1,5 @@
 import axios from '../util/axios'
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN } from '../contants/courseConstant'
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN, UPLOAD_START, UPLOAD_SUCCESS, UPLOAD_URL } from '../contants/courseConstant'
 import { getCourseListWaitEnrolled, getCourseListEnrolled } from './usersAction'
 import { firebaseApp } from '../firebaseConfig'
 
@@ -345,6 +345,9 @@ export const cancleUserJoinCourse = (taiKhoan, maKhoaHoc) => {
             // dispatch(getUserListWaitCourse(maKhoaHoc))
             dispatch(getUserListOfCourse(maKhoaHoc))
             dispatch(getUserListWaitCourse(maKhoaHoc))
+            firebaseApp.database().ref(`khoaHocDuocXetDuyet/${taiKhoan}`).child(maKhoaHoc).remove().then(() => {
+
+            })
             // /////////////////////////////
             // dispatch(getCourseListWaitEnrolled())
             // dispatch(getCourseListEnrolled())
@@ -357,4 +360,44 @@ export const changePrice = () => {
     return {
         type: CHANGE_PRICE
     }
+}
+//ghi danh dua vao khoa hoc firebase
+export const ghiDanhTheoKhoaHoc = (user) => {
+    return (dispatch,getState) => {
+        const {courseChosen} = getState().courseReducer
+        
+        firebaseApp.database().ref(`khoaHocDuocXetDuyet/${user.taiKhoan}/${courseChosen.maKhoaHoc}`).set({
+            tenKhoaHoc: courseChosen.tenKhoaHoc,
+            hinhAnh: courseChosen.hinhAnh
+        })
+    }
+}
+
+export const uploadStartAction = () => {
+    return{
+        type: UPLOAD_START,
+    }
+    
+}
+export const uploadSuccessAction = (filename) => {
+    return {
+        type: UPLOAD_SUCCESS,
+        data: filename
+    }
+}
+export const uploadSuccessUrl = (url) => {
+    return {
+        type: UPLOAD_URL,
+        data: url
+    }
+}
+export const handleUploadSuccess = (filename) => {
+    return (dispatch, getState) => {
+        const {courseChosen} = getState().courseReducer
+        dispatch(uploadSuccessAction(filename))
+        // firebaseApp.storage().ref(`${courseChosen.maKhoaHoc}`).getDownloadURL().then(url => {
+        //     dispatch(uploadSuccessUrl(url))
+        // })
+    }
+    
 }

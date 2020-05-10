@@ -1,4 +1,4 @@
-import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN } from "../contants/courseConstant"
+import { GET_COURSE_LIST, GET_COURSE_DETAIL, GET_COURSE_TITLE, GET_COURSE_FROM_TITLE, FIND_COURSE, COURSE_CHOSEN, GET_USER_LIST_OF_COURSE, GET_USER_LIST_NOT_CHOSE_COURSE, GET_USER_LIST_WAIT_COURSE, CHANGE_PRICE, DELETE_COURSE, CHANGE_PAGE, GET_COURSE_LIST_ALL, SAVE_NAME_FIND_COURSE, FIND_COURE_NO_RESULT, CANCLE_COURSE, FIND_COURSE_ADMIN, UPLOAD_SUCCESS, UPLOAD_START, UPLOAD_URL } from "../contants/courseConstant"
 
 const initialState = {
     listCourses: [],
@@ -7,6 +7,9 @@ const initialState = {
     totalCount: 0,
     courseDetail: {},
     courseTitle: [],
+    // document: '',
+    // documentUrl: '',
+    // progress: 0,
     courseChosen: {},
     userOfCourse: [],
     userNotChoseCourse: [],
@@ -15,6 +18,15 @@ const initialState = {
 
 const courseReducer = (state = initialState, action) => {
     switch (action.type) {
+        case UPLOAD_START:{
+            return {...state, progress: 0}
+        }
+        case UPLOAD_SUCCESS: {
+            return {...state, document: action.data, progress: 100}
+        }
+        case UPLOAD_URL: {
+            return {...state, documentUrl: action.data}
+        }
         case CHANGE_PAGE:
             {        
                 return {...state, currentPage: action.data}

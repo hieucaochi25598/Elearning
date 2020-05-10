@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetail } from "../../actions/courseAction";
+import {Spinner} from 'reactstrap'
 import {
   signUpCourse,
   commentCourse,
   getCommentCourse,
-  addToCart
+  addToCart,
+  layDanhSachKhoaHocDaXetDuyet,
+  layDsLinkTaiLieu
 } from "../../actions/userActions";
 import { Formik, Form } from "formik";
 import { MyInput } from "./FormEditAccount";
@@ -16,12 +19,28 @@ const CourseDetail = ({ ...props }) => {
   const dispatch = useDispatch();
   const { maKhoaHoc } = props.match.params;
   const { courseDetail } = useSelector(state => state.courseReducer);
-  const { commentArray } = useSelector(state => state.userReducer);
+  const { commentArray, danhSachKHDaXetDuyet, danhSachLinkTaiLieu} = useSelector(state => state.userReducer);
   useEffect(() => {
     dispatch(getCourseDetail(maKhoaHoc));
     dispatch(getCommentCourse(maKhoaHoc));
+    dispatch(layDanhSachKhoaHocDaXetDuyet())
+    dispatch(layDsLinkTaiLieu(maKhoaHoc));
   }, []);
-
+  const renderDocument = (course) => {
+    const index = danhSachKHDaXetDuyet.findIndex(item => item.maKhoaHoc === course.maKhoaHoc)
+    if(index !== -1){
+      return (<div className="container mt-4">
+        <h3>Tài liệu học tập</h3>
+        {danhSachLinkTaiLieu.length !== 0 ?( danhSachLinkTaiLieu.map(item => (
+          <div key={item.url}>
+            <h4>{item.tenTaiLieu}</h4>
+            <a href={item.url}>{item.url}</a>
+          </div>
+        ))): (<div><Spinner color="primary" style={{ width: '3rem', height: '3rem' }}/></div>)}
+      </div>)
+    }
+  }
+  console.log(danhSachLinkTaiLieu)
   return (
     <div>
       <div className="bg-dark text-white pt-4 pb-4">
@@ -64,6 +83,7 @@ const CourseDetail = ({ ...props }) => {
                 </div>
             </div>
       {/* Do luc dau chay render truoc nen object luc dau se bi rong nen can phai qua buoc kiem tra */}
+      {renderDocument(courseDetail)}
       <div className="container mt-4">
           <h3>Bình luận và đánh giá</h3>
       {commentArray.map((item, index) => (

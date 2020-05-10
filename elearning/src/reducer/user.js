@@ -20,7 +20,9 @@ import {
   DELETE_WISHLIST,
   GET_FEEDBACK_ARRAY,
   GET_NEWS_ARRAY,
-  SEND_FEEDBACK
+  SEND_FEEDBACK,
+  LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET,
+  LAY_LINK_TAI_LIEU
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -35,11 +37,19 @@ const initialState = {
   commentArray: [],
   feedBackArray: [],
   newsArray: [],
+  danhSachKHDaXetDuyet: [],
+  danhSachLinkTaiLieu: [],
   totalPrice: 0
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LAY_LINK_TAI_LIEU: {
+      return {...state, danhSachLinkTaiLieu: action.data}
+    }
+    case LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET: {
+      return {...state, danhSachKHDaXetDuyet: action.data}
+    }
     case GET_USER_INFO: {
       return { ...state, userInfo: {...action.data, soDu: 0 }};
     }

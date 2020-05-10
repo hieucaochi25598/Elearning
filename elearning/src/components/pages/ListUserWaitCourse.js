@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getUserListWaitCourse, confirmUserJoinCourse, cancleUserJoinCourse } from '../../actions/courseAction'
+import { getUserListWaitCourse, confirmUserJoinCourse, cancleUserJoinCourse, ghiDanhTheoKhoaHoc } from '../../actions/courseAction'
 import { userChosingAction } from '../../actions/usersAction'
 
 const ListUserWaitCourse = () => {
@@ -31,7 +31,7 @@ const ListUserWaitCourse = () => {
               <td>{item.biDanh}</td>
               <td>{item.hoTen}</td>
             <td>
-                <button className="btn btn-primary mr-2" onClick={()=> {dispatch(userChosingAction(item)); dispatch(confirmUserJoinCourse())}}>Ghi danh</button>
+                <button className="btn btn-primary mr-2" onClick={()=> {dispatch(userChosingAction(item)); dispatch(confirmUserJoinCourse()); dispatch(ghiDanhTheoKhoaHoc(item))}}>Ghi danh</button>
                 <button className="btn btn-danger" onClick={() => {dispatch(userChosingAction(item)); dispatch(cancleUserJoinCourse(item.taiKhoan, courseChosen.maKhoaHoc))}}>Hủy ghi danh</button>
             </td>
             </tr>

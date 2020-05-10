@@ -28,7 +28,6 @@ export const MyInput = ({ ...props }) => {
   //field bao gom onChange, onBlur, name, value
   //meta bao gom error, touched, ...
   const errorText = meta.error && meta.touched ? meta.error : "";
-  console.log(meta)
   return (
     <React.Fragment>
       <Input

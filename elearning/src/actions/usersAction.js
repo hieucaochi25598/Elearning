@@ -1,4 +1,5 @@
 import axios from "../util/axios";
+import { firebaseApp } from '../firebaseConfig'
 import {
   GET_USER_LIST,
   USER_CHOSING,
@@ -254,6 +255,7 @@ export const cancleEnroll = (taiKhoan, maKhoaHoc) => {
           data: {taiKhoan, maKhoaHoc}
       }).then(result => {
         dispatch(cancleEnrollAction(maKhoaHoc))
+        dispatch(huyGhiDanhTheoNguoiDung(maKhoaHoc))
           // dispatch(getUserListWaitCourse())
           // dispatch(getUserListOfCourse())
           // /////////////////////////////
@@ -295,4 +297,25 @@ export const cancleEnrollAction = (maKhoaHoc) => {
     data: maKhoaHoc
   }
 }
+
+//Ghi danh Firebase 
+export const ghiDanhTheoNguoiDung = (khoaHoc) => {
+  return (dispatch,getState) => {
+      const {userChosing} = getState().usersReducer
+      firebaseApp.database().ref(`khoaHocDuocXetDuyet/${userChosing.taiKhoan}/${khoaHoc.maKhoaHoc}`).set({
+          tenKhoaHoc: khoaHoc.tenKhoaHoc,
+          hinhAnh: khoaHoc.hinhAnh
+      })
+  }
+}
+//huy ghi danh theo nguoi dung
+export const huyGhiDanhTheoNguoiDung = (maKhoaHoc) => {
+  return (dispatch, getState) => {
+      const {userChosing} = getState().usersReducer
+      firebaseApp.database().ref(`khoaHocDuocXetDuyet/${userChosing.taiKhoan}`).child(maKhoaHoc).remove().then(() => {
+
+      })
+  }
+}
+
 
