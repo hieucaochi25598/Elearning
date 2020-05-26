@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 const AdminLayout = (props) => {
     return (
         <div className="row mr-0 position-relative">
-            
-            <div className="col-2 bg-dark">
+            <div style={{width: "230px"}}>
+            <div className="col-2 bg-dark position-fixed" style={{height:"100vh"}}>
                 <h2 className="text-white text-center mt-3">DASHBOARD</h2>
                 <Nav vertical>
                     <NavItem>
@@ -16,8 +16,8 @@ const AdminLayout = (props) => {
                     </NavItem>
                 </Nav>
             </div>
-            
-            <div className="col-10">{props.children}</div>
+            </div>
+            <div className="col-10 pl-5">{props.children}</div>
         </div>
     )
 }

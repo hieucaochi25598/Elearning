@@ -36,6 +36,10 @@ const CourseManagement = props => {
     document:'',
     progress: 0
   })
+  const [initialBaiTap, setInitialBaiTap] = useState({
+    baitap: '',
+    progressBaiTap: 0
+  })
   const {
     listCourses,
     currentPage,
@@ -56,6 +60,12 @@ const CourseManagement = props => {
   }, [])
   const handleUpLoadStart = () => {
     setInitialDocument({...initialDocument,progress: 0})
+  }
+  const handleUploadStartBaiTap = () => {
+    setInitialBaiTap({...initialBaiTap, progress: 0})
+  }
+  const handleUploadSuccessBaiTap = (filename) => {
+    setInitialBaiTap({...initialBaiTap, baitap: filename, progressBaiTap: 100})
   }
   const handleUploadSuccess = (filename) => {
     setInitialDocument({...initialDocument, document: filename, progress: 100})
@@ -160,6 +170,15 @@ const CourseManagement = props => {
                     onUploadStart={handleUpLoadStart}
                     onUploadSuccess={handleUploadSuccess}
                     className="mb-2"
+                />
+
+                <FileUploader
+                accept="baitap/*"
+                name="baitap"
+                storageRef={firebaseApp.storage().ref(`/baiTap/${item.maKhoaHoc}`)}
+                onUploadStart={handleUploadStartBaiTap}
+                onUploadSuccess={handleUploadSuccessBaiTap}
+                className="mb-2"
                 />
                 <br/>
                 <button
