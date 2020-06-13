@@ -9,7 +9,8 @@ import {
   getCommentCourse,
   addToCart,
   layDanhSachKhoaHocDaXetDuyet,
-  layDsLinkTaiLieu
+  layDsLinkTaiLieu,
+  layDsLinkBaiTap
 } from "../../actions/userActions";
 import { Formik, Form } from "formik";
 import { MyInput } from "./FormEditAccount";
@@ -23,8 +24,9 @@ const CourseDetail = ({ ...props }) => {
   useEffect(() => {
     dispatch(getCourseDetail(maKhoaHoc));
     dispatch(getCommentCourse(maKhoaHoc));
-    dispatch(layDanhSachKhoaHocDaXetDuyet())
+    dispatch(layDanhSachKhoaHocDaXetDuyet());
     dispatch(layDsLinkTaiLieu(maKhoaHoc));
+    dispatch(layDsLinkBaiTap(maKhoaHoc));
   }, []);
   const renderDocument = (course) => {
     const index = danhSachKHDaXetDuyet.findIndex(item => item.maKhoaHoc === course.maKhoaHoc)

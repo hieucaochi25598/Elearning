@@ -22,7 +22,8 @@ import {
   GET_NEWS_ARRAY,
   SEND_FEEDBACK,
   LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET,
-  LAY_LINK_TAI_LIEU
+  LAY_LINK_TAI_LIEU,
+  LAY_LINK_BAI_TAP
 } from "../contants/userConstants";
 
 //Luu thong tin user khi dang nhap
@@ -39,11 +40,15 @@ const initialState = {
   newsArray: [],
   danhSachKHDaXetDuyet: [],
   danhSachLinkTaiLieu: [],
+  danhSachLinkBaiTap: [],
   totalPrice: 0
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LAY_LINK_BAI_TAP: {
+      return {...state, danhSachLinkBaiTap: action.data}
+    }
     case LAY_LINK_TAI_LIEU: {
       return {...state, danhSachLinkTaiLieu: action.data}
     }

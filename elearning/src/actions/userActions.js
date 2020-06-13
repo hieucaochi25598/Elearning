@@ -1,5 +1,5 @@
 import axios, { setAuthorization } from '../util/axios'
-import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST, GET_FEEDBACK_ARRAY, GET_NEWS_ARRAY, SEND_FEEDBACK, LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET, LAY_LINK_TAI_LIEU } from '../contants/userConstants'
+import { GET_USER_INFO, GET_ACCOUNT_INFO, TOGGLE_MODAL, EDIT_ACCOUNT_INFO, GET_MY_COURSES_LIST, GET_MY_COURSES_LIST_WAITING, ADD_TO_CART, CAL_TOTAL_PRICE, DELETE_CART, DELETE_SIGNUP_COURSE, DISCOUNT_CART, CLEAR_CART, GET_CART_ARRAY, SIGNUP_COURSE, ADD_MONEY, COMMENT_COURSE, GET_COMMENT_COURSE, GET_WISHLIST_ARRAY, ADD_TO_WISHLIST, DELETE_WISHLIST, GET_FEEDBACK_ARRAY, GET_NEWS_ARRAY, SEND_FEEDBACK, LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET, LAY_LINK_TAI_LIEU, LAY_LINK_BAI_TAP } from '../contants/userConstants'
 import Swal from 'sweetalert2'
 import { firebaseApp } from '../firebaseConfig'
 
@@ -576,13 +576,7 @@ export const layDsLinkTaiLieu = (maKhoaHoc) => {
         
         var listRef = firebaseApp.storage().ref().child(`${maKhoaHoc}`);
         var documentUrl = []
-        listRef.listAll().then(function(res) {
-      // res.prefixes.forEach(function(folderRef) {
-      //   // All the prefixes under listRef.
-      //   // You may call listAll() recursively on them.
-      //   console.log(folderRef)
-      // });
-      
+        listRef.listAll().then(function(res) { 
       res.items.forEach(function(itemRef) {
         // All the items under listRef.
         itemRef.getDownloadURL().then(url => documentUrl.push({url: url, tenTaiLieu: itemRef.name}))
@@ -603,3 +597,29 @@ export const layDsLinkTaiLieuAction = (dsLink) => {
     }
 }
 
+export const layDsLinkBaiTap = (maKhoaHoc) => {
+    return (dispatch, getState) => {
+        
+        var listRef = firebaseApp.storage().ref().child(`baiTap/${maKhoaHoc}`);
+        var documentUrl = []
+        listRef.listAll().then(function(res) { 
+      res.items.forEach(function(itemRef) {
+        // All the items under listRef.
+        itemRef.getDownloadURL().then(url => documentUrl.push({url: url, tenBaiTap: itemRef.name}))
+        console.log(itemRef)
+      });
+      setTimeout(function(){dispatch(layDsLinkBaiTapAction(documentUrl))}, 1500)
+    
+    }).catch(function(error) {
+      // Uh-oh, an error occurred!
+    });
+    
+    }
+}
+
+export const layDsLinkBaiTapAction = (dsLink) => {
+    return {
+        type: LAY_LINK_BAI_TAP,
+        data: dsLink
+    }
+}
